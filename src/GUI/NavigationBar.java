@@ -20,45 +20,36 @@ public class NavigationBar extends JPanel implements ActionListener {
     }
 
     public void drawOptions() {
-        try {
-            Image folder = ImageIO.read(getClass().getResource("../Assets/folder.png"));
-            Image newFile = ImageIO.read(getClass().getResource("../Assets/new_file.png"));
-            Image star = ImageIO.read(getClass().getResource("../Assets/star.png"));
+        jbNew = new JButton("Nieuw");
+        jbNew.setBackground(Variables.transparent);
+        jbNew.setBorderPainted(false);
+        jbNew.setFocusPainted(false);
+        jbNew.setContentAreaFilled(false);
+        jbNew.addActionListener(this);
+        jbNew.setMargin(new Insets(2, 3, 2, 3));
+        jbNew.setIcon(new ImageIcon(Variables.getImage("new_file")));
 
-            jbNew = new JButton("Nieuw");
-            jbNew.setBackground(new Color(0, 0, 0, 0));
-            jbNew.setBorderPainted(false);
-            jbNew.setFocusPainted(false);
-            jbNew.setContentAreaFilled(false);
-            jbNew.addActionListener(this);
-            jbNew.setMargin(new Insets(2, 3, 2, 3));
-            jbNew.setIcon(new ImageIcon(newFile));
+        jbOpen = new JButton("Open");
+        jbOpen.setBackground(Variables.transparent);
+        jbOpen.setBorderPainted(false);
+        jbOpen.setFocusPainted(false);
+        jbOpen.setContentAreaFilled(false);
+        jbOpen.addActionListener(this);
+        jbOpen.setMargin(new Insets(2, 3, 2, 3));
+        jbOpen.setIcon(new ImageIcon(Variables.getImage("folder")));
 
-            jbOpen = new JButton("Open");
-            jbOpen.setBackground(new Color(0, 0, 0, 0));
-            jbOpen.setBorderPainted(false);
-            jbOpen.setFocusPainted(false);
-            jbOpen.setContentAreaFilled(false);
-            jbOpen.addActionListener(this);
-            jbOpen.setMargin(new Insets(2, 3, 2, 3));
-            jbOpen.setIcon(new ImageIcon(folder));
+        jbOptimalisation = new JButton("Optimalisation");
+        jbOptimalisation.setBackground(Variables.transparent);
+        jbOptimalisation.setBorderPainted(false);
+        jbOptimalisation.setFocusPainted(false);
+        jbOptimalisation.setContentAreaFilled(false);
+        jbOptimalisation.addActionListener(this);
+        jbOptimalisation.setMargin(new Insets(2, 3, 2, 3));
+        jbOptimalisation.setIcon(new ImageIcon(Variables.getImage("star")));
 
-            jbOptimalisation = new JButton("Optimalisation");
-            jbOptimalisation.setBackground(new Color(0, 0, 0, 0));
-            jbOptimalisation.setBorderPainted(false);
-            jbOptimalisation.setFocusPainted(false);
-            jbOptimalisation.setContentAreaFilled(false);
-            jbOptimalisation.addActionListener(this);
-            jbOptimalisation.setMargin(new Insets(2, 3, 2, 3));
-            jbOptimalisation.setIcon(new ImageIcon(star));
-
-            add(jbNew);
-            add(jbOpen);
-            add(jbOptimalisation);
-        }
-        catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        add(jbNew);
+        add(jbOpen);
+        add(jbOptimalisation);
     }
 
     @Override
