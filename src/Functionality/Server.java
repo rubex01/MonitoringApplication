@@ -1,5 +1,9 @@
 package Functionality;
 
+import Assets.Variables;
+
+import java.awt.*;
+
 public class Server {
 
     public static final int DATABASE = 0;
@@ -14,11 +18,24 @@ public class Server {
 
     private double uptime;
 
+    private Image image;
+
     public Server(String name, int price, int type, double uptime) {
         this.name = name;
         this.uptime = uptime;
         this.type = type;
         this.price = price;
+        switch (type) {
+            case 0:
+                image = Variables.getImage("database");
+                break;
+            case 1:
+                image = Variables.getImage("webserver");
+                break;
+            case 2:
+                image = Variables.getImage("firewall");
+                break;
+        }
     }
 
     @Override
@@ -40,5 +57,9 @@ public class Server {
 
     public double getUptime() {
         return uptime;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }
