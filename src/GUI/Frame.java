@@ -37,7 +37,7 @@ public class Frame extends JFrame {
     }
 
     private void drawNavigation() {
-        NavigationBar navigationBar = new NavigationBar();
+        NavigationBar navigationBar = new NavigationBar(this);
         add(navigationBar, BorderLayout.NORTH);
     }
 

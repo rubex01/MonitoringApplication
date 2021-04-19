@@ -2,7 +2,6 @@ package GUI;
 
 import Assets.Variables;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,10 @@ public class NavigationBar extends JPanel implements ActionListener {
 
     private JButton jbNew, jbOpen, jbOptimalisation;
 
-    public NavigationBar() {
+    private Frame parent;
+
+    public NavigationBar(Frame parent) {
+        this.parent = parent;
         setLayout(new FlowLayout(FlowLayout.LEFT));
         setSize(1200, 30);
         setBackground(Variables.background);
@@ -22,6 +24,7 @@ public class NavigationBar extends JPanel implements ActionListener {
     public void drawOptions() {
         jbNew = new JButton("Nieuw");
         jbNew.setBackground(Variables.transparent);
+        jbNew.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jbNew.setBorderPainted(false);
         jbNew.setFocusPainted(false);
         jbNew.setContentAreaFilled(false);
@@ -31,6 +34,7 @@ public class NavigationBar extends JPanel implements ActionListener {
 
         jbOpen = new JButton("Open");
         jbOpen.setBackground(Variables.transparent);
+        jbOpen.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jbOpen.setBorderPainted(false);
         jbOpen.setFocusPainted(false);
         jbOpen.setContentAreaFilled(false);
@@ -40,6 +44,7 @@ public class NavigationBar extends JPanel implements ActionListener {
 
         jbOptimalisation = new JButton("Optimalisation");
         jbOptimalisation.setBackground(Variables.transparent);
+        jbOptimalisation.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jbOptimalisation.setBorderPainted(false);
         jbOptimalisation.setFocusPainted(false);
         jbOptimalisation.setContentAreaFilled(false);
