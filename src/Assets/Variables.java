@@ -19,7 +19,7 @@ public class Variables {
 
     public final static Color transparent = new Color(0, 0, 0, 0);
 
-    private final static String[] images = {"star", "folder", "logo", "new_file", "close"};
+    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down"};
 
     public static Image getImage(String type) {
         try {
