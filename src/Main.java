@@ -8,12 +8,14 @@ public class Main {
         GUI.Frame gui = new Frame();
         Tabs tabs = gui.getTabsBar();
 
-        Example tab1 = new Example("Example file", true);
-        Example tab2 = new Example("Not closeable", true);
-        Example tab3 = new Example("Example file23", false);
+        Example tab1 = new Example("Monitoring", false);
+        Example tab2 = new Example("Ontwerp 1", true);
+        Example tab3 = new Example("Ontwerp 2", true);
+        Example tab4 = new Example("Ontwerp 3", true);
         tabs.addTab(tab1);
         tabs.addTab(tab2);
         tabs.addTab(tab3);
+        tabs.addTab(tab4);
 
     }
 

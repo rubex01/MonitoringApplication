@@ -17,6 +17,7 @@ public class TabButton extends JPanel implements MouseListener {
         this.child = child;
         addMouseListener(this);
         setBackground(Variables.nonFocus);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         setBorder(BorderFactory.createMatteBorder(3, 0, -3, 5, Variables.white));
 
         drawElements();
