@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Frame extends JFrame {
 
-    private int defaultWidth = 500, defaultHeight = 500;
+    private int defaultWidth = 700, defaultHeight = 600;
 
     private Tabs tabsBar;
 
@@ -18,22 +18,12 @@ public class Frame extends JFrame {
         setSize(defaultWidth, defaultHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Variables.white);
+        setIconImage(Variables.getImage("logo"));
 
-        drawLogo();
         drawNavigation();
         drawTabs();
 
         setVisible(true);
-    }
-
-    private void drawLogo() {
-        try {
-            Image logo = ImageIO.read(getClass().getResource("../Assets/logo.png"));
-            setIconImage(logo);
-        }
-        catch (Exception exception) {
-            exception.printStackTrace();
-        }
     }
 
     private void drawNavigation() {

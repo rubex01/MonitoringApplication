@@ -62,4 +62,16 @@ public class Server {
     public Image getImage() {
         return image;
     }
+
+    public String getTypeName() {
+        switch (type) {
+            case 0:
+                return "database";
+            case 1:
+                return "webserver";
+            case 2:
+                return "firewall";
+        }
+        return null;
+    }
 }

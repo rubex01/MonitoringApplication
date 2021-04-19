@@ -5,6 +5,7 @@ import Functionality.Server;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,11 @@ public class ServerListPanel extends JPanel implements ActionListener {
 
     private JPanel serverPanel;
 
+    private JScrollPane scrollPane;
+
     private JButton toggleButton;
+
+    private JTextField searchField;
 
     private Blueprint parent;
 
@@ -38,6 +43,13 @@ public class ServerListPanel extends JPanel implements ActionListener {
         toggleButton.addActionListener(this);
         toggleButton.setIcon(new ImageIcon(Variables.getImage("arrow_down")));
         togglePanel.add(toggleButton);
+
+        searchField = new JTextField(8);
+        searchField.addActionListener(this);
+        searchField.setBackground(Variables.white);
+        searchField.setBorder(new LineBorder(Variables.nonFocus, 1, false));
+        togglePanel.add(searchField);
+
         togglePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         togglePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         togglePanel.setBackground(Variables.backgroundLighter);
@@ -51,13 +63,43 @@ public class ServerListPanel extends JPanel implements ActionListener {
         }
 
         add(serverPanel, BorderLayout.CENTER);
+
+        scrollPane = new JScrollPane(serverPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        add(scrollPane);
+    }
+
+    private void searchForServer() {
+        serverPanel.removeAll();
+        for (Server server : parent.getCurrentBlueprintServerList()) {
+            if (
+                    server.getName().toLowerCase().contains(searchField.getText().toLowerCase()) ||
+                            server.getTypeName().toLowerCase().contains(searchField.getText().toLowerCase()))
+            {
+                serverPanel.add(new ServerListItemPanel(server));
+            }
+        }
+        if (serverPanel.getComponents().length == 0) {
+            JLabel notFound = new JLabel("Geen servers gevonden");
+            notFound.setBorder(new EmptyBorder(50, 5, 50, 0));
+            serverPanel.add(notFound);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == toggleButton) {
             serverPanel.setVisible(!serverPanel.isVisible());
+            scrollPane.setVisible(!scrollPane.isVisible());
+            searchField.setVisible(!searchField.isVisible());
             toggleButton.setIcon(new ImageIcon(Variables.getImage((serverPanel.isVisible() ? "arrow_down" : "arrow_up"))));
         }
+        else if (e.getSource() == searchField) {
+            searchForServer();
+        }
+        revalidate();
+        repaint();
     }
 }
