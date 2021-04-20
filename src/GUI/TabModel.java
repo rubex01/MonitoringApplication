@@ -1,8 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+import java.io.Serializable;
 
-public abstract class TabModel {
+public abstract class TabModel implements Serializable {
 
     private String title;
 
@@ -49,4 +50,14 @@ public abstract class TabModel {
     }
 
     public abstract boolean closeCheck();
+
+    public void setTitle(String title) {
+        this.title = title;
+        tabButton.updateTitle();
+        tabButton.repaint();
+    }
+
+    public Tabs getTabsParent() {
+        return tabsParent;
+    }
 }

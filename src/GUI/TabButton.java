@@ -13,6 +13,8 @@ public class TabButton extends JPanel implements MouseListener {
 
     public static TabButton focusedButton;
 
+    private JLabel title;
+
     public TabButton(TabModel child) {
         this.child = child;
         addMouseListener(this);
@@ -23,8 +25,12 @@ public class TabButton extends JPanel implements MouseListener {
         drawElements();
     }
 
+    public void updateTitle() {
+        title.setText(child.getTitle());
+    }
+
     private void drawElements() {
-        JLabel title = new JLabel(child.getTitle());
+        title = new JLabel(child.getTitle());
         add(title);
 
         if (child.isClosable()) {
@@ -53,7 +59,12 @@ public class TabButton extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getSource() == this) {
+            child.setFocus();
+        }
+        else if (e.getSource() instanceof JButton) {
+            child.close();
+        }
     }
 
     @Override
@@ -63,12 +74,7 @@ public class TabButton extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource() == this) {
-            child.setFocus();
-        }
-        else if (e.getSource() instanceof JButton) {
-            child.close();
-        }
+
     }
 
     @Override

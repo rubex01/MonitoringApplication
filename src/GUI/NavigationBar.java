@@ -1,6 +1,8 @@
 package GUI;
 
 import Assets.Variables;
+import Functionality.Blueprint.Blueprint;
+import Functionality.SaveController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class NavigationBar extends JPanel implements ActionListener {
 
-    private JButton jbNew, jbOpen, jbOptimalisation;
+    private JButton jbNew, jbOpen, jbOptimalisation, jbSave;
 
     private Frame parent;
 
@@ -32,6 +34,16 @@ public class NavigationBar extends JPanel implements ActionListener {
         jbNew.setMargin(new Insets(2, 3, 2, 3));
         jbNew.setIcon(new ImageIcon(Variables.getImage("new_file")));
 
+        jbSave = new JButton("Opslaan");
+        jbSave.setBackground(Variables.transparent);
+        jbSave.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jbSave.setBorderPainted(false);
+        jbSave.setFocusPainted(false);
+        jbSave.setContentAreaFilled(false);
+        jbSave.addActionListener(this);
+        jbSave.setMargin(new Insets(2, 3, 2, 3));
+        jbSave.setIcon(new ImageIcon(Variables.getImage("save")));
+
         jbOpen = new JButton("Open");
         jbOpen.setBackground(Variables.transparent);
         jbOpen.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -53,6 +65,7 @@ public class NavigationBar extends JPanel implements ActionListener {
         jbOptimalisation.setIcon(new ImageIcon(Variables.getImage("star")));
 
         add(jbNew);
+        add(jbSave);
         add(jbOpen);
         add(jbOptimalisation);
     }
@@ -60,12 +73,21 @@ public class NavigationBar extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbNew) {
-            // TODO: nieuwe samenstelling starten
-            System.out.println("todo");
+            Blueprint blueprint = new Blueprint();
+            parent.getTabsBar().addTab(blueprint);
+            parent.getTabsBar().changeFocus(blueprint);
         }
         else if (e.getSource() == jbOpen) {
-            // TODO: Open samenstelling van files
-            System.out.println("todo");
+            SaveController.openBlueprint();
+        }
+        else if (e.getSource() == jbSave) {
+            try {
+                Blueprint blueprint = (Blueprint) parent.getTabsBar().getCurrentFocus();
+                SaveController.saveBlueprint(blueprint);
+            }
+            catch (Exception exception) {
+                System.out.println(exception.getMessage());
+            }
         }
         else if (e.getSource() == jbOptimalisation) {
             // TODO: Open dialog etc..
