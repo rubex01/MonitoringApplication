@@ -7,6 +7,7 @@ import Functionality.ServerParser;
 import GUI.TabModel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Blueprint extends TabModel implements Serializable {
     private ArrayList<Server> selectedServers;
 
     private String savePath;
+
+    private ServerVisualizationPanel serverVisualizerPanel;
 
     private int currentState = 0, savedState = 0;
 
@@ -44,8 +47,15 @@ public class Blueprint extends TabModel implements Serializable {
         serverListPanel = new ServerListPanel(this);
         panel.add(serverListPanel, BorderLayout.SOUTH);
 
-        ServerVisualizationPanel serverVisualizerPanel = new ServerVisualizationPanel(this);
+        serverVisualizerPanel = new ServerVisualizationPanel(this);
         panel.add(serverVisualizerPanel, BorderLayout.CENTER);
+        serverVisualizerPanel.drawServers();
+        calculatePriceAndUptime();
+
+        JScrollPane scrollPane = new JScrollPane(serverVisualizerPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        panel.add(scrollPane);
 
         return panel;
     }
@@ -60,8 +70,16 @@ public class Blueprint extends TabModel implements Serializable {
 
     public void addServer(Server server){
         selectedServers.add(server);
-        System.out.println(selectedServers); // TODO: remove this
+        serverVisualizerPanel.drawServers();
         updateState();
+        calculatePriceAndUptime();
+    }
+
+    public void removeServer(Server server) {
+        selectedServers.remove(server);
+        serverVisualizerPanel.drawServers();
+        updateState();
+        calculatePriceAndUptime();
     }
 
     private void updateState() {
@@ -74,6 +92,29 @@ public class Blueprint extends TabModel implements Serializable {
             return getTitle().substring(0, (getTitle().length()-18));
         }
         return getTitle();
+    }
+
+    private void calculatePriceAndUptime() {
+        double webserver = 0;
+        double database = 0;
+        double firewall = 0;
+        int totalPrice = 0;
+        for (Server server : selectedServers) {
+            switch (server.getType()) {
+                case Server.DATABASE:
+                    webserver = (webserver == 0) ? (1-(server.getUptime()/100)) :  (webserver  * (1-(server.getUptime()/100)));
+                    break;
+                case Server.WEBSERVER:
+                    database = (database == 0) ? (1-(server.getUptime()/100)) :  (database  * (1-(server.getUptime()/100)));
+                    break;
+                case Server.FIREWALL:
+                    firewall = (firewall == 0) ? (1-(server.getUptime()/100)) :  (firewall  * (1-(server.getUptime()/100)));
+                    break;
+            }
+            totalPrice += server.getPrice();
+        }
+        double totalUptime = (1-webserver) * (1-database) * (1-firewall);
+        serverListPanel.updateInfoLabel(totalUptime, totalPrice, selectedServers.size());
     }
 
     public ArrayList<Server> getServers(){

@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class ServerListPanel extends JPanel implements ActionListener, Serializable {
 
@@ -20,6 +21,8 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
     private JButton toggleButton;
 
     private JTextField searchField;
+
+    private JLabel totalInfoLabel;
 
     private Blueprint parent;
 
@@ -51,6 +54,9 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
         searchField.setBorder(new LineBorder(Variables.nonFocus, 1, false));
         togglePanel.add(searchField);
 
+        totalInfoLabel = new JLabel();
+        togglePanel.add(totalInfoLabel);
+
         togglePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         togglePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         togglePanel.setBackground(Variables.backgroundLighter);
@@ -70,6 +76,12 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         add(scrollPane);
+    }
+
+    public void updateInfoLabel(double uptime, int price, int amount) {
+        DecimalFormat df = new DecimalFormat("##.###");
+        if (amount > 0) totalInfoLabel.setText("Uptime: " + (df.format(uptime*100)) + "%  Prijs: €" + price + "  Servers: " + amount);
+        else totalInfoLabel.setText("");
     }
 
     private void searchForServer() {

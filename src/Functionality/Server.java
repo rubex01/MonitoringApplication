@@ -27,13 +27,13 @@ public class Server implements Serializable {
         this.type = type;
         this.price = price;
         switch (type) {
-            case 0:
+            case DATABASE:
                 typeName = "database";
                 break;
-            case 1:
+            case WEBSERVER:
                 typeName = "webserver";
                 break;
-            case 2:
+            case FIREWALL:
                 typeName = "firewall";
                 break;
         }

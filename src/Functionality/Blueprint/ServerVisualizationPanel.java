@@ -3,7 +3,6 @@ package Functionality.Blueprint;
 import Functionality.Server;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,40 +10,53 @@ public class ServerVisualizationPanel extends JPanel implements Serializable {
 
     private Blueprint parent;
 
-    private JPanel firewallPanel, databasePanel, webserverPanel;
+    private ServerVisualizationItemPanel fwPanel, wbPanel, dbPanel;
 
     public ServerVisualizationPanel(Blueprint parent) {
         this.parent = parent;
-        setLayout(new FlowLayout());
-        drawServerBoxes();
-        decideVisibility();
+        drawPanels();
     }
 
-    private void drawServerBoxes() {
-//        JPanel firewallPanel = new JPanel();
-//        firewallPanel.setBackground(Color.ORANGE);
-//        firewallPanel.setVisible(false);
-//
-//        JPanel databasePanel = new JPanel();
-//        databasePanel.setBackground(Color.BLACK);
-//        databasePanel.setVisible(false);
-//
-//        JPanel webserverPanel = new JPanel();
-//        webserverPanel.setBackground(Color.GREEN);
-//        webserverPanel.setVisible(false);
-//
-//        add(firewallPanel);
-//        add(databasePanel);
-//        add(webserverPanel);
+    public void drawPanels() {
+        fwPanel = new ServerVisualizationItemPanel(Server.FIREWALL);
+        wbPanel = new ServerVisualizationItemPanel(Server.WEBSERVER);
+        dbPanel = new ServerVisualizationItemPanel(Server.DATABASE);
+        add(fwPanel);
+        add(wbPanel);
+        add(dbPanel);
     }
 
-    private void decideVisibility() {
-//        ArrayList<Server> servers = parent.getServers();
-//        for (Server server : servers) {
-//            if (server.getType() == 0) firewallPanel.setVisible(true);
-//            if (server.getType() == 1) databasePanel.setVisible(true);
-//            if (server.getType() == 2) webserverPanel.setVisible(true);
-//        }
+    public void drawServers() {
+        fwPanel.clearServerCollection();
+        wbPanel.clearServerCollection();
+        dbPanel.clearServerCollection();
+        ArrayList<ServerCollection> serverCollections = new ArrayList<>();
+        for (Server server : parent.getServers()) {
+            boolean found = false;
+            for (ServerCollection collection : serverCollections) {
+                if (server == collection.getServer()) {
+                    collection.incrementOne();
+                    found = true;
+                }
+            }
+            if (!found) serverCollections.add(new ServerCollection(server, parent));
+        }
+        for (ServerCollection collection : serverCollections) {
+            switch (collection.getServer().getType()) {
+                case Server.DATABASE:
+                    dbPanel.addToServerCollection(collection);
+                    break;
+                case Server.WEBSERVER:
+                    wbPanel.addToServerCollection(collection);
+                    break;
+                case Server.FIREWALL:
+                    fwPanel.addToServerCollection(collection);
+                    break;
+            }
+        }
+        fwPanel.drawToPanels();
+        wbPanel.drawToPanels();
+        dbPanel.drawToPanels();
     }
 
 }
