@@ -9,8 +9,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class ServerListPanel extends JPanel implements ActionListener {
+public class ServerListPanel extends JPanel implements ActionListener, Serializable {
 
     private JPanel serverPanel;
 
@@ -59,7 +60,7 @@ public class ServerListPanel extends JPanel implements ActionListener {
         serverPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         serverPanel.setBackground(Variables.background);
         for (Server server : parent.getCurrentBlueprintServerList()) {
-            serverPanel.add(new ServerListItemPanel(server));
+            serverPanel.add(new ServerListItemPanel(server, parent));
         }
 
         add(serverPanel, BorderLayout.CENTER);
@@ -74,11 +75,29 @@ public class ServerListPanel extends JPanel implements ActionListener {
     private void searchForServer() {
         serverPanel.removeAll();
         for (Server server : parent.getCurrentBlueprintServerList()) {
-            if (
-                    server.getName().toLowerCase().contains(searchField.getText().toLowerCase()) ||
-                            server.getTypeName().toLowerCase().contains(searchField.getText().toLowerCase()))
-            {
-                serverPanel.add(new ServerListItemPanel(server));
+            try {
+                if (
+                        server.getName().toLowerCase().contains(searchField.getText().toLowerCase()) ||
+                        server.getTypeName().toLowerCase().contains(searchField.getText().toLowerCase())
+                ) {
+                    serverPanel.add(new ServerListItemPanel(server, parent));
+                    continue;
+                } else if (
+                        searchField.getText().contains("%") &&
+                        server.getUptime() >= Double.valueOf(searchField.getText().substring(0, (searchField.getText().length() - 1)))
+                ) {
+                    serverPanel.add(new ServerListItemPanel(server, parent));
+                    continue;
+                } else if (
+                        searchField.getText().contains("€") &&
+                        server.getPrice() <= Integer.valueOf(searchField.getText().substring(1))
+                ) {
+                    serverPanel.add(new ServerListItemPanel(server, parent));
+                    continue;
+                }
+            }
+            catch (Exception exception) {
+                System.out.println(exception.getMessage());
             }
         }
         if (serverPanel.getComponents().length == 0) {

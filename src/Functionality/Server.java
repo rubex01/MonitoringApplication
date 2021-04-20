@@ -3,8 +3,9 @@ package Functionality;
 import Assets.Variables;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Server {
+public class Server implements Serializable {
 
     public static final int DATABASE = 0;
 
@@ -18,7 +19,7 @@ public class Server {
 
     private double uptime;
 
-    private Image image;
+    private String typeName;
 
     public Server(String name, int price, int type, double uptime) {
         this.name = name;
@@ -27,13 +28,13 @@ public class Server {
         this.price = price;
         switch (type) {
             case 0:
-                image = Variables.getImage("database");
+                typeName = "database";
                 break;
             case 1:
-                image = Variables.getImage("webserver");
+                typeName = "webserver";
                 break;
             case 2:
-                image = Variables.getImage("firewall");
+                typeName = "firewall";
                 break;
         }
     }
@@ -60,18 +61,10 @@ public class Server {
     }
 
     public Image getImage() {
-        return image;
+        return Variables.getImage(typeName);
     }
 
     public String getTypeName() {
-        switch (type) {
-            case 0:
-                return "database";
-            case 1:
-                return "webserver";
-            case 2:
-                return "firewall";
-        }
-        return null;
+        return typeName;
     }
 }

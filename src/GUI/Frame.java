@@ -2,7 +2,6 @@ package GUI;
 
 import Assets.Variables;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +11,10 @@ public class Frame extends JFrame {
 
     private Tabs tabsBar;
 
+    public static Frame defaultFrame;
+
     public Frame() {
+        defaultFrame = this;
         setTitle("Monitoring Applicatie");
         setLayout(new BorderLayout());
         setSize(defaultWidth, defaultHeight);

@@ -58,4 +58,8 @@ public class Tabs extends JPanel {
         repaint();
     }
 
+    public TabModel getCurrentFocus() {
+        return currentFocus;
+    }
+
 }

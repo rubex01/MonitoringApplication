@@ -4,19 +4,24 @@ import Assets.Variables;
 import Functionality.Server;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 
-public class ServerListItemPanel extends JPanel implements MouseListener {
+public class ServerListItemPanel extends JPanel implements MouseListener, Serializable {
 
     private Server server;
 
     private JPanel infoPanel;
 
-    public ServerListItemPanel(Server server) {
+    private Blueprint parent;
+
+    public ServerListItemPanel(Server server, Blueprint parent) {
         this.server = server;
+        this.parent = parent;
         addMouseListener(this);
         setLayout(new BorderLayout());
         setBackground(Variables.white);
@@ -49,18 +54,17 @@ public class ServerListItemPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO: add current item to design
-        System.out.println("Add server " + server.getName() + " to infrastructure blueprint");
+        parent.addServer(server);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        setBorder(new CompoundBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Variables.background), new EmptyBorder(8, 8, 8, 8)));
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        setBorder(new EmptyBorder(10, 10, 10, 10));
     }
 
     @Override
