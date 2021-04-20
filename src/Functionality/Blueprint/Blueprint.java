@@ -50,6 +50,40 @@ public class Blueprint extends TabModel implements Serializable {
         return panel;
     }
 
+    public void setSavePath(String path) {
+        savePath = path;
+    }
+
+    public String getSavePath() {
+        return savePath;
+    }
+
+    public void addServer(Server server){
+        selectedServers.add(server);
+        System.out.println(selectedServers); // TODO: remove this
+        updateState();
+    }
+
+    private void updateState() {
+        if (currentState == savedState) setTitle(getTitle() + " (niet opgeslagen)");
+        currentState++;
+    }
+
+    public String getFileTitle() {
+        if (getTitle().contains(" (niet opgeslagen)")) {
+            return getTitle().substring(0, (getTitle().length()-18));
+        }
+        return getTitle();
+    }
+
+    public ArrayList<Server> getServers(){
+        return selectedServers;
+    }
+
+    public void saved() {
+        savedState = currentState;
+    }
+
     @Override
     public boolean closeCheck() {
         if (savedState != currentState) {

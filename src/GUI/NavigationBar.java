@@ -73,8 +73,9 @@ public class NavigationBar extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbNew) {
-            // TODO: nieuwe samenstelling starten
-            System.out.println("todo");
+            Blueprint blueprint = new Blueprint();
+            parent.getTabsBar().addTab(blueprint);
+            parent.getTabsBar().changeFocus(blueprint);
         }
         else if (e.getSource() == jbOpen) {
             SaveController.openBlueprint();
