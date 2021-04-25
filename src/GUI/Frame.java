@@ -1,6 +1,7 @@
 package GUI;
 
 import Assets.Variables;
+import Functionality.Monitoring.Monitoring;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class Frame extends JFrame {
 
         drawNavigation();
         drawTabs();
+        addMonitoring();
 
         setVisible(true);
     }
@@ -36,6 +38,10 @@ public class Frame extends JFrame {
     private void drawTabs() {
         tabsBar = new Tabs();
         add(tabsBar, BorderLayout.CENTER);
+    }
+
+    private void addMonitoring() {
+        tabsBar.addTab(new Monitoring());
     }
 
     public Tabs getTabsBar() {
