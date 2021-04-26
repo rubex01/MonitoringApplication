@@ -25,7 +25,8 @@ public class Monitoring extends TabModel {
 
     @Override
     public JPanel getPanel() {
-        return new JPanel();
+        monitoringPanel = new MonitoringPanel();
+        return monitoringPanel;
     }
 
     @Override
