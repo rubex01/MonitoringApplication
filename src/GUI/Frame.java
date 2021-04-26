@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Frame extends JFrame {
 
-    private int defaultWidth = 700, defaultHeight = 600;
+    private int defaultWidth = 1100, defaultHeight = 700;
 
     private Tabs tabsBar;
 

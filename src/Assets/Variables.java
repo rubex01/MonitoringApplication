@@ -27,7 +27,15 @@ public class Variables {
 
     public final static Color connectionHighlight = new Color(76, 255, 182);
 
-    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save"};
+    public final static Color uptimeColor = new Color(29, 137, 241);
+
+    public final static Color downtimeColor = new Color(252, 43, 63);
+
+    public final static Color outagesColor = new Color(131, 122, 229);
+
+    public final static Color subText = new Color(141, 141, 141);
+
+    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save", "icon_template"};
 
     public static Image getImage(String type) {
         try {

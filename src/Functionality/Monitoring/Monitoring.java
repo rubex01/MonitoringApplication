@@ -9,6 +9,8 @@ public class Monitoring extends TabModel {
 
     private APIController apiController;
 
+    private MonitoringPanel monitoringPanel;
+
     public Monitoring() {
         super("Monitoring", false);
 
