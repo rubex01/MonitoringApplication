@@ -4,13 +4,14 @@ import Functionality.Server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.stream.Stream;
 
-public class APIController extends TimerTask {
+public class APIController extends TimerTask implements Serializable {
 
     private ArrayList<ServerResult> serverResults;
 
