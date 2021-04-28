@@ -5,82 +5,74 @@ import Functionality.Blueprint.Blueprint;
 import Functionality.SaveController;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NavigationBar extends JPanel implements ActionListener {
+public class NavigationBar extends JMenuBar implements ActionListener {
 
-    private JButton jbNew, jbOpen, jbOptimalisation, jbSave;
+    private JMenuItem jmNew, jmSave, jmOpen, jmSaveOnline, jmOpenOnline;
+
+    private JMenu jmbMenu, jmbOptimalisation;
 
     private Frame parent;
 
     public NavigationBar(Frame parent) {
         this.parent = parent;
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-        setSize(1200, 30);
+        setBorder(new EmptyBorder(6, 3, 6, 3));
         setBackground(Variables.background);
         drawOptions();
     }
 
     public void drawOptions() {
-        jbNew = new JButton("Nieuw");
-        jbNew.setBackground(Variables.transparent);
-        jbNew.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        jbNew.setBorderPainted(false);
-        jbNew.setFocusPainted(false);
-        jbNew.setContentAreaFilled(false);
-        jbNew.addActionListener(this);
-        jbNew.setMargin(new Insets(2, 3, 2, 3));
-        jbNew.setIcon(new ImageIcon(Variables.getImage("new_file")));
+        jmbMenu = new JMenu("Bestand");
+        jmbMenu.setIcon(new ImageIcon(Variables.getImage("folder")));
+        jmbMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jmbMenu.setFocusPainted(false);
+        jmbMenu.setBorderPainted(false);
+        jmbMenu.setContentAreaFilled(false);
 
-        jbSave = new JButton("Opslaan");
-        jbSave.setBackground(Variables.transparent);
-        jbSave.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        jbSave.setBorderPainted(false);
-        jbSave.setFocusPainted(false);
-        jbSave.setContentAreaFilled(false);
-        jbSave.addActionListener(this);
-        jbSave.setMargin(new Insets(2, 3, 2, 3));
-        jbSave.setIcon(new ImageIcon(Variables.getImage("save")));
+        jmbOptimalisation = new JMenu("Optimalisatie");
+        jmbOptimalisation.setIcon(new ImageIcon(Variables.getImage("star")));
+        jmbOptimalisation.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jmbOptimalisation.setFocusPainted(false);
+        jmbOptimalisation.setBorderPainted(false);
+        jmbOptimalisation.setContentAreaFilled(false);
+        jmbOptimalisation.addActionListener(this);
 
-        jbOpen = new JButton("Open");
-        jbOpen.setBackground(Variables.transparent);
-        jbOpen.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        jbOpen.setBorderPainted(false);
-        jbOpen.setFocusPainted(false);
-        jbOpen.setContentAreaFilled(false);
-        jbOpen.addActionListener(this);
-        jbOpen.setMargin(new Insets(2, 3, 2, 3));
-        jbOpen.setIcon(new ImageIcon(Variables.getImage("folder")));
+        jmNew = new JMenuItem("Nieuw", new ImageIcon(Variables.getImage("new_file")));
+        jmNew.addActionListener(this);
+        jmSave = new JMenuItem("Opslaan", new ImageIcon(Variables.getImage("save")));
+        jmSave.addActionListener(this);
+        jmOpen = new JMenuItem("Openen", new ImageIcon(Variables.getImage("folder")));
+        jmOpen.addActionListener(this);
+        jmSaveOnline = new JMenuItem("Online opslaan", new ImageIcon(Variables.getImage("save_online")));
+        jmSaveOnline.addActionListener(this);
+        jmOpenOnline = new JMenuItem("Online openen", new ImageIcon(Variables.getImage("open_online")));
+        jmOpenOnline.addActionListener(this);
 
-        jbOptimalisation = new JButton("Optimalisation");
-        jbOptimalisation.setBackground(Variables.transparent);
-        jbOptimalisation.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        jbOptimalisation.setBorderPainted(false);
-        jbOptimalisation.setFocusPainted(false);
-        jbOptimalisation.setContentAreaFilled(false);
-        jbOptimalisation.addActionListener(this);
-        jbOptimalisation.setMargin(new Insets(2, 3, 2, 3));
-        jbOptimalisation.setIcon(new ImageIcon(Variables.getImage("star")));
+        jmbMenu.add(jmNew);
+        jmbMenu.add(jmSave);
+        jmbMenu.add(jmOpen);
+        jmbMenu.add(jmSaveOnline);
+        jmbMenu.add(jmOpenOnline);
 
-        add(jbNew);
-        add(jbSave);
-        add(jbOpen);
-        add(jbOptimalisation);
+        add(jmbMenu);
+        add(jmbOptimalisation);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == jbNew) {
+        if (e.getSource() == jmNew) {
             Blueprint blueprint = new Blueprint();
             parent.getTabsBar().addTab(blueprint);
             parent.getTabsBar().changeFocus(blueprint);
         }
-        else if (e.getSource() == jbOpen) {
+        else if (e.getSource() == jmOpen) {
             SaveController.openBlueprint();
         }
-        else if (e.getSource() == jbSave) {
+        else if (e.getSource() == jmSave) {
             try {
                 Blueprint blueprint = (Blueprint) parent.getTabsBar().getCurrentFocus();
                 SaveController.saveBlueprint(blueprint);
@@ -92,6 +84,19 @@ public class NavigationBar extends JPanel implements ActionListener {
         else if (e.getSource() == jbOptimalisation) {
             // TODO: Open dialog etc..
             System.out.println("todo");
+        }
+        else if (e.getSource() == jmOpenOnline) {
+            // TODO: ...
+            System.out.println("todo");
+        }
+        else if (e.getSource() == jmSaveOnline) {
+            try {
+                Blueprint blueprint = (Blueprint) parent.getTabsBar().getCurrentFocus();
+                SaveController.saveBlueprintOnline(blueprint);
+            }
+            catch (Exception exception) {
+                System.out.println(exception.getMessage());
+            }
         }
     }
 }

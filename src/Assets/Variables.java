@@ -27,7 +27,7 @@ public class Variables {
 
     public final static Color connectionHighlight = new Color(76, 255, 182);
 
-    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save"};
+    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save", "save_online", "open_online"};
 
     public static Image getImage(String type) {
         try {
