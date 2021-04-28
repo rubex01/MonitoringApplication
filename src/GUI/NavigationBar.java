@@ -81,7 +81,7 @@ public class NavigationBar extends JMenuBar implements ActionListener {
                 System.out.println(exception.getMessage());
             }
         }
-        else if (e.getSource() == jbOptimalisation) {
+        else if (e.getSource() == jmbOptimalisation) {
             // TODO: Open dialog etc..
             System.out.println("todo");
         }
