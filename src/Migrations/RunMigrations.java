@@ -2,26 +2,27 @@ package Migrations;
 
 import Functionality.DatabaseConnection;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class RunMigrations {
 
     private static ArrayList<Migration> migrations;
 
-    private static Connection dbConnection;
+    private static String method;
+
+    public static void runAllMigrations(String method) {
+        RunMigrations.method = method;
+
+        migrations = new ArrayList<>();
+
+        addMigrations();
+        runMigrations();
+
+        DatabaseConnection.closeConnection();
+    }
 
     public static void runAllMigrations() {
-        migrations = new ArrayList<>();
-        addMigrations();
-        dbConnection = DatabaseConnection.getConnection();
-        runMigrations();
-        try {
-            dbConnection.close();
-        }
-        catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        runAllMigrations("up");
     }
 
     private static void addMigrations() {
@@ -31,8 +32,9 @@ public class RunMigrations {
 
     private static void runMigrations() {
         for (Migration migration : migrations) {
-            migration.setConnection(dbConnection);
-            migration.runSQL();
+            migration.setConnection(DatabaseConnection.getConnection());
+            if (method.equals("up")) migration.runSQL();
+            else if (method.equals("down")) migration.downSQL();
         }
     }
 

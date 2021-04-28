@@ -5,10 +5,8 @@ import Functionality.Blueprint.SaveOnlineDialog;
 import GUI.Frame;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 
 public class SaveController {
 
@@ -33,10 +31,9 @@ public class SaveController {
                 outputFileNameNoExtension = outputFileNameNoExtension.substring(0, (outputFileNameNoExtension.length()-4));
             }
 
-
-
             blueprint.setTitle(outputFileNameNoExtension);
             blueprint.setSavePath(outputFilePath);
+            blueprint.setOnlineSaved(false);
             blueprint.saved();
 
             FileOutputStream fileOut = new FileOutputStream(outputFilePath);
@@ -88,7 +85,7 @@ public class SaveController {
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             oos.writeObject(blueprint);
             oos.flush();
-            byte [] data = bos.toByteArray();
+            byte[] data = bos.toByteArray();
 
             if (dialog.hasToOverwrite()) {
                 PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("update blueprints set Object = ? where Filename = ?");
@@ -103,13 +100,15 @@ public class SaveController {
                 statement.executeUpdate();
             }
 
-            DatabaseConnection.closeConnection();
+            blueprint.setTitle(filename);
+            blueprint.setOnlineSaved(true);
+            blueprint.saved();
 
+            DatabaseConnection.closeConnection();
             return true;
         }
         catch (Exception exception) {
-
-            return true;
+            return false;
         }
     }
 

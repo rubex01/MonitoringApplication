@@ -11,4 +11,6 @@ public abstract class Migration {
     }
 
     public abstract void runSQL();
+
+    public abstract void downSQL();
 }

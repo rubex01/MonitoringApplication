@@ -9,9 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class SaveOnlineDialog extends JDialog implements ActionListener, KeyListener {
 
@@ -32,6 +31,7 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
         setTitle("Bestand online opslaan");
         setLayout(new FlowLayout(FlowLayout.CENTER));
         setSize(300,150);
+        setLocationRelativeTo(Frame.defaultFrame);
 
         drawItems();
 
@@ -53,7 +53,7 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
     }
 
     private void drawItems() {
-        jtFilename = new JTextField(15);
+        jtFilename = new JTextField(16);
         jtFilename.addKeyListener(this);
         if (filetitle != null) jtFilename.setText(filetitle);
 
@@ -75,11 +75,12 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
 
     private void checkForOverwrite() {
         try{
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery("select count('ID') as 'exists' from blueprints where Filename = '" + getFileName() + "'");
+            jbOk.setEnabled(false);
+            PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement("select count('ID') as 'exists' from blueprints where Filename = ?");
+            preparedStatement.setString(1, getFileName());
+            ResultSet rs = preparedStatement.executeQuery();
             int restult = 0;
             while(rs.next()) restult = rs.getInt(1);
-            System.out.println(getFileName());
             if (restult > 0) {
                 warning.setText("<html><div style='text-align: center;'>Als u dit bestand met deze naam opslaat<br>  wordt het oude bestand overschreven</div></html>");
                 overwrite = true;
@@ -89,6 +90,7 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
                 overwrite = false;
             }
             DatabaseConnection.closeConnection();
+            jbOk.setEnabled(true);
         }
         catch (Exception exception) {
             exception.printStackTrace();

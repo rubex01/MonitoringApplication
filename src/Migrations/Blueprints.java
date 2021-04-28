@@ -8,7 +8,18 @@ public class Blueprints extends Migration {
     public void runSQL() {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("CREATE TABLE `monitoring`.`blueprints` ( `ID` INT NOT NULL AUTO_INCREMENT , `Object` TEXT NOT NULL, `Filename` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
+            stmt.executeUpdate("CREATE TABLE `monitoring`.`blueprints` ( `ID` INT NOT NULL AUTO_INCREMENT , `Object` LONGBLOB NOT NULL , `Filename` VARCHAR(255) NOT NULL , PRIMARY KEY (`ID`), UNIQUE (`Filename`)) ENGINE = InnoDB;");
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void downSQL() {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("DROP TABLE `monitoring`.`blueprints`");
         }
         catch (Exception exception) {
             exception.printStackTrace();
