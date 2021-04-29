@@ -3,6 +3,7 @@ package GUI;
 import Assets.Variables;
 import Functionality.Blueprint.Blueprint;
 import Functionality.BlueprintSaves.SaveController;
+import Functionality.Settings.SettingsDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +15,9 @@ public class NavigationBar extends JMenuBar implements ActionListener {
 
     private JMenuItem jmNew, jmSave, jmOpen, jmSaveOnline, jmOpenOnline;
 
-    private JMenu jmbMenu, jmbOptimalisation;
+    private JMenu jmbMenu;
+
+    private JButton jmbSettings, jmbOptimalisation;
 
     private Frame parent;
 
@@ -33,13 +36,22 @@ public class NavigationBar extends JMenuBar implements ActionListener {
         jmbMenu.setBorderPainted(false);
         jmbMenu.setContentAreaFilled(false);
 
-        jmbOptimalisation = new JMenu("Optimalisatie");
+        jmbOptimalisation = new JButton("Optimalisatie");
         jmbOptimalisation.setIcon(new ImageIcon(Variables.getImage("star")));
         jmbOptimalisation.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jmbOptimalisation.setFocusPainted(false);
         jmbOptimalisation.setBorderPainted(false);
         jmbOptimalisation.setContentAreaFilled(false);
         jmbOptimalisation.addActionListener(this);
+
+        jmbSettings = new JButton("");
+        jmbSettings.setIcon(new ImageIcon(Variables.getImage("settings")));
+        jmbSettings.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jmbSettings.setFocusPainted(false);
+        jmbSettings.setBorderPainted(false);
+        jmbSettings.setContentAreaFilled(false);
+        jmbSettings.addActionListener(this);
+        jmbSettings.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
         jmNew = new JMenuItem("Nieuw", new ImageIcon(Variables.getImage("new_file")));
         jmNew.addActionListener(this);
@@ -60,6 +72,8 @@ public class NavigationBar extends JMenuBar implements ActionListener {
 
         add(jmbMenu);
         add(jmbOptimalisation);
+        add(Box.createHorizontalGlue());
+        add(jmbSettings);
     }
 
     @Override
@@ -81,10 +95,6 @@ public class NavigationBar extends JMenuBar implements ActionListener {
                 System.out.println(exception.getMessage());
             }
         }
-        else if (e.getSource() == jmbOptimalisation) {
-            // TODO: Open dialog etc..
-            System.out.println("todo");
-        }
         else if (e.getSource() == jmOpenOnline) {
             SaveController.openBlueprintOnline();
         }
@@ -96,6 +106,13 @@ public class NavigationBar extends JMenuBar implements ActionListener {
             catch (Exception exception) {
                 System.out.println(exception.getMessage());
             }
+        }
+        else if (e.getSource() == jmbOptimalisation) {
+            // TODO: Open dialog etc..
+            System.out.println("todo");
+        }
+        else if (e.getSource() == jmbSettings) {
+            new SettingsDialog();
         }
     }
 }

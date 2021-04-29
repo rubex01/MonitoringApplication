@@ -1,5 +1,7 @@
 package Functionality;
 
+import Functionality.Settings.SettingsController;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -7,16 +9,12 @@ import java.util.stream.Stream;
 
 public class ServerParser {
 
-    public static String serverFileLocation = "src/servers.txt";
-
-    public ServerParser(String filePath) {
-        serverFileLocation = filePath;
-    }
-
     public static ArrayList<Server> parseServers() {
         ArrayList<Server> serverList = new ArrayList<>();
         try {
-            Stream<String> rows = Files.lines(Paths.get(serverFileLocation));
+            String path = SettingsController.getSetting("server_file_location");
+            if (path.equals("null")) path = "src/servers.txt";
+            Stream<String> rows = Files.lines(Paths.get(path));
 
             rows.map(x -> x.split(",")).forEach(x -> {
                 int type = 0;
