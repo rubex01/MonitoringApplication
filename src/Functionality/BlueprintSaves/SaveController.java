@@ -1,12 +1,13 @@
-package Functionality;
+package Functionality.BlueprintSaves;
 
 import Functionality.Blueprint.Blueprint;
-import Functionality.Blueprint.SaveOnlineDialog;
+import Functionality.DatabaseConnection;
 import GUI.Frame;
 
 import javax.swing.*;
 import java.io.*;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class SaveController {
 
@@ -81,6 +82,10 @@ public class SaveController {
 
             String filename = dialog.getFileName();
 
+            blueprint.setTitle(filename);
+            blueprint.setOnlineSaved(true);
+            blueprint.saved();
+
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             oos.writeObject(blueprint);
@@ -99,10 +104,6 @@ public class SaveController {
                 statement.setString(2, filename);
                 statement.executeUpdate();
             }
-
-            blueprint.setTitle(filename);
-            blueprint.setOnlineSaved(true);
-            blueprint.saved();
 
             DatabaseConnection.closeConnection();
             return true;

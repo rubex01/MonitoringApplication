@@ -1,7 +1,7 @@
 package Functionality.Blueprint;
 
 import Assets.Variables;
-import Functionality.SaveController;
+import Functionality.BlueprintSaves.SaveController;
 import Functionality.Server;
 import Functionality.ServerParser;
 import GUI.TabModel;

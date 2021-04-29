@@ -2,7 +2,7 @@ package GUI;
 
 import Assets.Variables;
 import Functionality.Blueprint.Blueprint;
-import Functionality.SaveController;
+import Functionality.BlueprintSaves.SaveController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -86,8 +86,7 @@ public class NavigationBar extends JMenuBar implements ActionListener {
             System.out.println("todo");
         }
         else if (e.getSource() == jmOpenOnline) {
-            // TODO: ...
-            System.out.println("todo");
+            SaveController.openBlueprintOnline();
         }
         else if (e.getSource() == jmSaveOnline) {
             try {
