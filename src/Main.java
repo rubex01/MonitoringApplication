@@ -1,6 +1,7 @@
 import Functionality.Blueprint.Blueprint;
 import GUI.Frame;
 import GUI.Tabs;
+import Migrations.RunMigrations;
 
 public class Main {
 
@@ -10,6 +11,8 @@ public class Main {
 
         Blueprint ontwerp = new Blueprint();
         tabs.addTab(ontwerp);
+
+//        RunMigrations.runAllMigrations(); // Uncomment to run migrations
     }
 
 }
