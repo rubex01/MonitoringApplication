@@ -113,4 +113,32 @@ public class SaveController {
         }
     }
 
+    public static boolean openBlueprintOnline(){
+        try{
+            OpenOnlineDialog dialog = new OpenOnlineDialog();
+            if (!dialog.getOpenPressed()) return false;
+
+            PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("select Object from blueprints WHERE Filename = ?");
+            statement.setString(1, dialog.getSelectedValue());
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()){
+                byte[] result = rs.getBytes(1);
+
+                ByteArrayInputStream in = new ByteArrayInputStream(result);
+                ObjectInputStream is = new ObjectInputStream(in);
+                Blueprint blueprint = (Blueprint) is.readObject();
+
+                Frame.defaultFrame.getTabsBar().addTab(blueprint);
+                Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
+            }
+
+            DatabaseConnection.closeConnection();
+            return true;
+        }
+        catch (Exception exception) {
+            return false;
+        }
+    }
+
 }
