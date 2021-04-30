@@ -55,6 +55,8 @@ public class Blueprint extends TabModel implements Serializable {
         JScrollPane scrollPane = new JScrollPane(serverVisualizerPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
         panel.add(scrollPane);
 
         return panel;
