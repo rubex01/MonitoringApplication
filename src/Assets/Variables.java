@@ -35,7 +35,7 @@ public class Variables {
 
     public final static Color subText = new Color(141, 141, 141);
 
-    private final static String[] images = {"star", "folder", "logo", "new_file", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save", "icon_template"};
+    private final static String[] images = {"star", "folder", "logo", "new_file", "reset", "close", "database", "firewall", "webserver", "arrow_up", "arrow_down", "save", "save_online", "open_online", "search", "settings"};
 
     public static Image getImage(String type) {
         try {
