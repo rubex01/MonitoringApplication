@@ -26,7 +26,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         setTitle("Instellingen");
         setLayout(new BorderLayout());
         setBackground(Variables.backgroundLighter);
-        setSize(500, 330);
+        setSize(500, 430);
         setLocationRelativeTo(Frame.defaultFrame);
 
         drawItems();
@@ -41,7 +41,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingItems.add(new SettingItem("database_host", "Host", SettingItem.TEXT));
         settingItems.add(new SettingItem("database", "Database", SettingItem.TEXT));
         settingItems.add(new SettingItem("database_username", "Gebruikersnaam", SettingItem.TEXT));
-        settingItems.add(new SettingItem("database_password", "Wachtwoord", SettingItem.TEXT));
+        settingItems.add(new SettingItem("database_password", "Wachtwoord", SettingItem.PASSWORD));
+        settingItems.add(new SettingItem("", "Status", SettingItem.SPACE));
+        settingItems.add(new SettingItem("ssh_host", "Host", SettingItem.TEXT, true));
+        settingItems.add(new SettingItem("ssh_user", "Gebruikersnaam", SettingItem.TEXT, true));
+        settingItems.add(new SettingItem("ssh_password", "Wachtwoord", SettingItem.PASSWORD, true));
         // Add setting items here
     }
 
@@ -49,6 +53,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingsPanel = new JPanel();
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        JScrollPane scrollPane = new JScrollPane(settingsPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
 
         for (SettingItem item : settingItems) {
             settingsPanel.add(item.drawSelf());
@@ -65,7 +74,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         buttonPanel.add(jbOk);
         buttonPanel.add(jbCancel);
 
-        add(settingsPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 

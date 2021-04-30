@@ -1,5 +1,8 @@
 package Functionality.Settings;
 
+import GUI.Frame;
+
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -14,6 +17,8 @@ public class SettingsController {
     private static Properties properties;
 
     private static ArrayList<String[]> QueueList;
+
+    private static boolean showRestartOption = false;
 
     public static void addToQueue(String key, String value) {
         if (QueueList == null) QueueList = new ArrayList<>();
@@ -38,6 +43,7 @@ public class SettingsController {
 
             QueueList = null;
             propertiesLoader(true);
+            if (showRestartOption) restartDialog();
         }
         catch (Exception exception) {
             // TODO: nice exception
@@ -58,6 +64,7 @@ public class SettingsController {
             out.close();
 
             propertiesLoader(true);
+            if (showRestartOption) restartDialog();
         }
         catch (Exception exception) {
             // TODO: nice exception
@@ -121,4 +128,12 @@ public class SettingsController {
         }
     }
 
+    private static void restartDialog() {
+        JOptionPane.showMessageDialog(Frame.defaultFrame, "De applicatie moet worden herstart om de gewijzigde instellingen te gebruiken.");
+        showRestartOption = false;
+    }
+
+    public static void setShowRestartOption(boolean showRestartOption) {
+        SettingsController.showRestartOption = showRestartOption;
+    }
 }

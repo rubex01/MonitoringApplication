@@ -1,12 +1,14 @@
 package Functionality.Monitoring;
 
 import Functionality.Server;
+import Functionality.Settings.SettingsController;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.stream.Stream;
@@ -15,29 +17,69 @@ public class APIController extends TimerTask implements Serializable {
 
     private ArrayList<ServerResult> serverResults;
 
-    private static final String webServerPoolName = "Webservers_ipvANY", databaseServerPoolName = "Databases_ipvANY", endpoint = "http://192.168.178.25:8800";
+    private static final String webServerPoolName = "Webservers_ipvANY", databaseServerPoolName = "Databases_ipvANY";
+
+    private static final String statsCommand = "echo \"show stat\" | socat stdio /tmp/haproxy.socket";
+
+    private Session sshSession;
 
     public APIController() {
         serverResults = new ArrayList<>();
+        createSSHSession();
     }
 
     @Override
     public void run() {
         try {
-            URL endpoint = new URL(APIController.endpoint);
-            URLConnection yc = endpoint.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-            String inputLine;
-            String responseContent = "";
-            while ((inputLine = in.readLine()) != null) responseContent += inputLine + "\n";
-            in.close();
+            Channel channel=sshSession.openChannel("exec");
+            ((ChannelExec)channel).setCommand(statsCommand);
+            channel.setInputStream(null);
+            ((ChannelExec)channel).setErrStream(System.err);
 
-            parseResult(responseContent);
+            InputStream in=channel.getInputStream();
+            channel.connect();
+
+            String currentStatus = "";
+            byte[] tmp=new byte[1024];
+            while(true){
+                while(in.available()>0){
+                    int i=in.read(tmp, 0, 1024);
+                    if(i<0)break;
+                    currentStatus += new String(tmp, 0, i);
+                }
+                if(channel.isClosed()){
+                    break;
+                }
+            }
+            channel.disconnect();
+
+            parseResult(currentStatus);
         }
         catch (Exception exception) {
 //            TODO: give error
             System.out.println("OOPS, could not send request to the api.");
         }
+    }
+
+    private void createSSHSession() {
+        String host = SettingsController.getSetting("ssh_host");
+        String user = SettingsController.getSetting("ssh_user");
+        String password = SettingsController.getSetting("ssh_password");
+        try{
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            JSch jsch = new JSch();
+            sshSession = jsch.getSession(user, host, 22);
+            sshSession.setPassword(password);
+            sshSession.setConfig(config);
+            sshSession.connect();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void closeSSHSession() {
+        sshSession.disconnect();
     }
 
     private void parseResult(String content) {
@@ -52,6 +94,7 @@ public class APIController extends TimerTask implements Serializable {
 
         try {
             valueArrays.remove(0);
+            valueArrays.remove(valueArrays.size()-1);
 
             for (ArrayList<String> stringlist : valueArrays) {
                 if (!stringlist.get(28).equals("0")) {

@@ -2,6 +2,7 @@ package Functionality.Settings;
 
 import Functionality.Settings.SettingPanels.BooleanPanel;
 import Functionality.Settings.SettingPanels.FilePanel;
+import Functionality.Settings.SettingPanels.PasswordPanel;
 import Functionality.Settings.SettingPanels.TextPanel;
 
 import javax.swing.*;
@@ -10,17 +11,24 @@ import java.awt.*;
 
 public class SettingItem {
 
-    public static final int BOOLEAN = 0, FILE = 1, TEXT = 2, SPACE = 3;
+    public static final int BOOLEAN = 0, FILE = 1, TEXT = 2, PASSWORD = 3, SPACE = 4;
 
     private String currentValue, settingsTitle, configKey, newValue;
 
     private int type;
 
-    public SettingItem(String configKey, String settingTitle, int settingType) {
+    private boolean restartToTakeEffect;
+
+    public SettingItem(String configKey, String settingTitle, int settingType, boolean restartToTakeEffect) {
+        this.restartToTakeEffect = restartToTakeEffect;
         this.configKey = configKey;
         this.settingsTitle = settingTitle;
         this.type = settingType;
         this.currentValue = SettingsController.getSetting(configKey);
+    }
+
+    public SettingItem(String configKey, String settingTitle, int settingType) {
+        this(configKey, settingTitle, settingType, false);
     }
 
     public JPanel drawSelf() {
@@ -50,6 +58,9 @@ public class SettingItem {
             case TEXT:
                 panel.add(new TextPanel(this));
                 break;
+            case PASSWORD:
+                panel.add(new PasswordPanel(this));
+                break;
         }
 
         return panel;
@@ -66,6 +77,7 @@ public class SettingItem {
     public void addSaveToQueue() {
         if (type == SPACE || newValue == null) return;
         SettingsController.addToQueue(configKey, newValue);
+        if (restartToTakeEffect) SettingsController.setShowRestartOption(true);
     }
 
     public String getNewValue() {
