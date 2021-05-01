@@ -2,13 +2,13 @@ package Functionality.Monitoring;
 
 public class ServerResult {
 
-    private int type, downtime, sid;
+    private int type, downtime, sid, uptime;
 
     private String serverName, checkStatus, checkDesc, ipAddress;
 
     private boolean online;
 
-    public ServerResult(String serverName, String checkStatus, String checkDesc, String ipAddress, boolean online, int downtime, int type, int sid) {
+    public ServerResult(String serverName, String checkStatus, String checkDesc, String ipAddress, boolean online, int downtime, int type, int sid, int uptime) {
         this.serverName = serverName;
         this.checkStatus = checkStatus;
         this.checkDesc = checkDesc;
@@ -17,8 +17,21 @@ public class ServerResult {
         this.downtime = downtime;
         this.type = type;
         this.sid = sid;
+        this.uptime = uptime;
 
         testingPurposes();
+    }
+
+    public int getUptime() {
+        return uptime;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getDowntime() {
+        return downtime;
     }
 
     public int getSid() {
@@ -33,11 +46,12 @@ public class ServerResult {
         return serverName;
     }
 
-    public void updateStatus(String checkStatus, String checkDesc, boolean online, int downtime) {
+    public void updateStatus(String checkStatus, String checkDesc, boolean online, int downtime, int uptime) {
         this.checkStatus = checkStatus;
         this.checkDesc = checkDesc;
         this.online = online;
         this.downtime = downtime;
+        this.uptime = uptime;
 
         testingPurposes();
     }

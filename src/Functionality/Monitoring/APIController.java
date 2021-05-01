@@ -17,14 +17,20 @@ public class APIController extends TimerTask implements Serializable {
 
     private ArrayList<ServerResult> serverResults;
 
+    private ArrayList<PoolResult> poolResults;
+
     private static final String webServerPoolName = "Webservers_ipvANY", databaseServerPoolName = "Databases_ipvANY";
 
     private static final String statsCommand = "echo \"show stat\" | socat stdio /tmp/haproxy.socket";
 
     private Session sshSession;
 
-    public APIController() {
+    private Monitoring parent;
+
+    public APIController(Monitoring parent) {
+        this.parent = parent;
         serverResults = new ArrayList<>();
+        poolResults = new ArrayList<>();
         createSSHSession();
     }
 
@@ -97,16 +103,17 @@ public class APIController extends TimerTask implements Serializable {
             valueArrays.remove(valueArrays.size()-1);
 
             for (ArrayList<String> stringlist : valueArrays) {
-                if (!stringlist.get(28).equals("0")) {
+                if (!stringlist.get(28).equals("0") || stringlist.get(0).equals("HAProxyLocalStats")) {
                     boolean alreadyExists = false;
                     for (ServerResult existingResult : serverResults) {
-                        if (existingResult.getSid() == Integer.valueOf(stringlist.get(28))) {
+                        if (existingResult.getSid() == Integer.valueOf(stringlist.get(28)) && existingResult.getServerName().equals(stringlist.get(1))) {
                             alreadyExists = true;
                             existingResult.updateStatus(
                                     stringlist.get(36),
                                     stringlist.get(65),
-                                    (stringlist.get(17).equals("UP")),
-                                    Integer.valueOf(stringlist.get(24))
+                                    (stringlist.get(17).equals("UP") || stringlist.get(17).equals("OPEN")),
+                                    (stringlist.get(24).equals("") ? 0 : Integer.valueOf(stringlist.get(24))),
+                                    (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23)))
                             );
                         }
                     }
@@ -117,18 +124,54 @@ public class APIController extends TimerTask implements Serializable {
                             stringlist.get(36),
                             stringlist.get(65),
                             stringlist.get(73),
+                            (stringlist.get(17).equals("UP") || stringlist.get(17).equals("OPEN")),
+                            (stringlist.get(24).equals("") ? 0 : Integer.valueOf(stringlist.get(24))),
+                            (
+                                    stringlist.get(0).equals(APIController.webServerPoolName) ?
+                                            Server.WEBSERVER :
+                                            (stringlist.get(0).equals(APIController.databaseServerPoolName) ?
+                                                    Server.DATABASE :
+                                                    Server.FIREWALL
+                                            )
+                            ),
+                            Integer.valueOf(stringlist.get(28)),
+                            (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23)))
+                    ));
+                }
+                else if (APIController.databaseServerPoolName.equals(stringlist.get(0)) || APIController.webServerPoolName.equals(stringlist.get(0)) && (stringlist.get(1).equals("BACKEND"))) {
+                    boolean alreadyExists = false;
+                    int type = (stringlist.get(0).equals(APIController.databaseServerPoolName) ? Server.DATABASE : Server.WEBSERVER);
+                    for (PoolResult existingResult : poolResults) {
+                        if (existingResult.getType() == type) {
+                            alreadyExists = true;
+                            existingResult.updateStatus(
+                                    (stringlist.get(17).equals("UP")),
+                                    Integer.valueOf(stringlist.get(24)),
+                                    Integer.valueOf(stringlist.get(23))
+                            );
+                        }
+                    }
+                    if (alreadyExists) continue;
+
+                    poolResults.add(new PoolResult(
+                            stringlist.get(0),
                             (stringlist.get(17).equals("UP")),
                             Integer.valueOf(stringlist.get(24)),
-                            (stringlist.get(0).equals(APIController.webServerPoolName) ? Server.WEBSERVER : Server.DATABASE),
-                            Integer.valueOf(stringlist.get(28))
+                            type,
+                            Integer.valueOf(stringlist.get(23))
                     ));
                 }
             }
+            startUpdateCycle();
         }
         catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             System.out.println("Oops, the api sent back an invalid response.");
 //            TODO: give right error
         }
+    }
+
+    private void startUpdateCycle() {
+        parent.startUpdateCycle(serverResults, poolResults);
     }
 
     public ArrayList<ServerResult> getServerResults() {

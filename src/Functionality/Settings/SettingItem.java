@@ -27,6 +27,10 @@ public class SettingItem {
         this.currentValue = SettingsController.getSetting(configKey);
     }
 
+    public int getType() {
+        return type;
+    }
+
     public SettingItem(String configKey, String settingTitle, int settingType) {
         this(configKey, settingTitle, settingType, false);
     }

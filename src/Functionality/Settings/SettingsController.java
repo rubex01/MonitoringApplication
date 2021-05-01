@@ -10,9 +10,9 @@ import java.util.Properties;
 
 public class SettingsController {
 
-    public static final String propertiesLocation = "src/config.properties";
+    private static final String propertiesLocation = "src/config.properties";
 
-    public static final String defaultPropertiesLocation = "src/default.properties";
+    private static final String defaultPropertiesLocation = "src/default.properties";
 
     private static Properties properties;
 
@@ -27,22 +27,16 @@ public class SettingsController {
 
     public static void executeQueue() {
         try {
-            properties = null;
-
-            FileInputStream in = new FileInputStream(propertiesLocation);
-            Properties props = new Properties();
-            props.load(in);
-            in.close();
-
             FileOutputStream out = new FileOutputStream(propertiesLocation);
+
             for (String[] change : QueueList) {
-                props.setProperty(change[0], change[1]);
+                properties.setProperty(change[0], change[1]);
             }
-            props.store(out, null);
+
+            properties.store(out, null);
             out.close();
 
             QueueList = null;
-            propertiesLoader(true);
             if (showRestartOption) restartDialog();
         }
         catch (Exception exception) {
@@ -53,17 +47,11 @@ public class SettingsController {
 
     public static void changeSetting(String key, String value) {
         try {
-            FileInputStream in = new FileInputStream(propertiesLocation);
-            Properties props = new Properties();
-            props.load(in);
-            in.close();
-
             FileOutputStream out = new FileOutputStream(propertiesLocation);
-            props.setProperty(key, value);
-            props.store(out, null);
+            properties.setProperty(key, value);
+            properties.store(out, null);
             out.close();
 
-            propertiesLoader(true);
             if (showRestartOption) restartDialog();
         }
         catch (Exception exception) {
@@ -129,7 +117,7 @@ public class SettingsController {
     }
 
     private static void restartDialog() {
-        JOptionPane.showMessageDialog(Frame.defaultFrame, "De applicatie moet worden herstart om de gewijzigde instellingen te gebruiken.");
+        JOptionPane.showMessageDialog(Frame.defaultFrame, "De applicatie moet worden herstart om de gewijzigde instellingen in gebruik te nemen.");
         showRestartOption = false;
     }
 

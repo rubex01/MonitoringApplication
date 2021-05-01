@@ -21,8 +21,14 @@ public abstract class SettingPanel extends JPanel implements ActionListener {
         this.value = parent.getCurrentValue();
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        drawItems();
-        drawResetButton();
+        if (parent.getType() == SettingItem.BOOLEAN) {
+            drawResetButton();
+            drawItems();
+        }
+        else {
+            drawItems();
+            drawResetButton();
+        }
     }
 
     private void drawResetButton() {

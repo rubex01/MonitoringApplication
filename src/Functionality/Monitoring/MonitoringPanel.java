@@ -1,14 +1,18 @@
 package Functionality.Monitoring;
 
-import Assets.Variables;
 import Functionality.Monitoring.ExtensiveStatusPanel.ExtensiveStatusPanel;
 import Functionality.Monitoring.QuickStatusPanel.QuickStatusPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MonitoringPanel extends JPanel {
+
+    private QuickStatusPanel quickStatusPanel1, quickStatusPanel2, quickStatusPanel3;
+
+    private ExtensiveStatusPanel extensiveStatusPanel1, extensiveStatusPanel2, extensiveStatusPanel3;
 
     public MonitoringPanel(){
         setLayout(new BorderLayout());
@@ -24,13 +28,13 @@ public class MonitoringPanel extends JPanel {
         quickStatusPanel.setPreferredSize(new Dimension(500, 75));
         quickStatusPanel.setBorder(new EmptyBorder(0,0,10,0));
 
-        QuickStatusPanel panel1 = new QuickStatusPanel(QuickStatusPanel.UPTIME, "103");
-        QuickStatusPanel panel2 = new QuickStatusPanel(QuickStatusPanel.DOWNTIME, "10");
-        QuickStatusPanel panel3 = new QuickStatusPanel(QuickStatusPanel.OUTAGES, "2");
+        quickStatusPanel1 = new QuickStatusPanel(QuickStatusPanel.UPTIME, 0);
+        quickStatusPanel2 = new QuickStatusPanel(QuickStatusPanel.DOWNTIME, 0);
+        quickStatusPanel3 = new QuickStatusPanel(QuickStatusPanel.OUTAGES, 0);
 
-        quickStatusPanel.add(panel1);
-        quickStatusPanel.add(panel2);
-        quickStatusPanel.add(panel3);
+        quickStatusPanel.add(quickStatusPanel1);
+        quickStatusPanel.add(quickStatusPanel2);
+        quickStatusPanel.add(quickStatusPanel3);
 
         add(quickStatusPanel, BorderLayout.NORTH);
     }
@@ -39,18 +43,33 @@ public class MonitoringPanel extends JPanel {
         JPanel extensiveStatusPanel = new JPanel();
         extensiveStatusPanel.setLayout(new GridLayout(1, 3, 10, 10));
 
-        ExtensiveStatusPanel panel1 = new ExtensiveStatusPanel();
-        panel1.setBackground(Variables.white);
-        ExtensiveStatusPanel panel2 = new ExtensiveStatusPanel();
-        panel2.setBackground(Variables.white);
-        ExtensiveStatusPanel panel3 = new ExtensiveStatusPanel();
-        panel3.setBackground(Variables.white);
+        extensiveStatusPanel1 = new ExtensiveStatusPanel();
+        extensiveStatusPanel2 = new ExtensiveStatusPanel();
+        extensiveStatusPanel3 = new ExtensiveStatusPanel();
 
-        extensiveStatusPanel.add(panel1);
-        extensiveStatusPanel.add(panel2);
-        extensiveStatusPanel.add(panel3);
+        extensiveStatusPanel.add(extensiveStatusPanel1);
+        extensiveStatusPanel.add(extensiveStatusPanel2);
+        extensiveStatusPanel.add(extensiveStatusPanel3);
 
         add(extensiveStatusPanel, BorderLayout.CENTER);
+    }
+
+    public void statusUpdateHandler(ArrayList<ServerResult> serverResults, ArrayList<PoolResult> poolResults) {
+        int currentOut = 0;
+        int uptime = -1;
+        int downtime = 0;
+        boolean poolDown = false;
+        for (PoolResult poolStatus : poolResults) {
+            downtime += poolStatus.getDowntime();
+            if (!poolStatus.isOnline()) poolDown = true;
+            if (poolStatus.getUptime() < uptime || uptime == -1) uptime = poolStatus.getUptime();
+        }
+        for (ServerResult status : serverResults) {
+            if (!status.isOnline()) currentOut++;
+        }
+        quickStatusPanel1.updateTrigger(poolDown ? 0 : uptime);
+        quickStatusPanel2.updateTrigger(downtime);
+        quickStatusPanel3.updateTrigger(currentOut);
     }
 
 }

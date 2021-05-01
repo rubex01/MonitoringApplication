@@ -10,8 +10,11 @@ public class QuickStatusPanelIcon extends JPanel {
 
     private Color typeColor;
 
-    public QuickStatusPanelIcon(Color typeColor) {
+    private String imageName;
+
+    public QuickStatusPanelIcon(Color typeColor, String imageName) {
         this.typeColor = typeColor;
+        this.imageName = imageName;
 
         setBackground(Variables.white);
         setPreferredSize(new Dimension(50, 50));
@@ -32,6 +35,7 @@ public class QuickStatusPanelIcon extends JPanel {
             }
 
             g.drawImage(image, 0, 0, 40, 40, null);
+            g.drawImage(Variables.getImage(imageName), 6, 6, 30, 30, null);
     }
 
     private static Color blend(Color c1, Color c2, float ratio) {

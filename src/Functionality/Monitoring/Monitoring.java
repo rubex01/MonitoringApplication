@@ -3,6 +3,7 @@ package Functionality.Monitoring;
 import GUI.TabModel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class Monitoring extends TabModel {
@@ -18,9 +19,14 @@ public class Monitoring extends TabModel {
     }
 
     private void startApiController() {
-        apiController = new APIController();
+        apiController = new APIController(this);
+
         java.util.Timer timer = new Timer();
         timer.schedule(apiController, 0, 6000);
+    }
+
+    public void startUpdateCycle(ArrayList<ServerResult> serverResults, ArrayList<PoolResult> poolResults) {
+        monitoringPanel.statusUpdateHandler(serverResults, poolResults);
     }
 
     @Override

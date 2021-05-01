@@ -58,6 +58,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Variables.nonFocus));
 
         for (SettingItem item : settingItems) {
             settingsPanel.add(item.drawSelf());
