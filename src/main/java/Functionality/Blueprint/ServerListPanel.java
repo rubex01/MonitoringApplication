@@ -9,10 +9,12 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class ServerListPanel extends JPanel implements ActionListener, Serializable {
+public class ServerListPanel extends JPanel implements ActionListener, Serializable, KeyListener {
 
     private JPanel serverPanel;
 
@@ -22,7 +24,7 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
 
     private JTextField searchField;
 
-    private JLabel totalInfoLabel;
+    private JLabel totalInfoLabel, imageLabel;
 
     private Blueprint parent;
 
@@ -48,8 +50,11 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
         toggleButton.setIcon(new ImageIcon(Variables.getImage("arrow_down")));
         togglePanel.add(toggleButton);
 
+        imageLabel = new JLabel(new ImageIcon(Variables.getImage("search")));
+        togglePanel.add(imageLabel);
+
         searchField = new JTextField(8);
-        searchField.addActionListener(this);
+        searchField.addKeyListener(this);
         searchField.setBackground(Variables.white);
         searchField.setBorder(new LineBorder(Variables.nonFocus, 1, false));
         togglePanel.add(searchField);
@@ -125,11 +130,29 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
             serverPanel.setVisible(!serverPanel.isVisible());
             scrollPane.setVisible(!scrollPane.isVisible());
             searchField.setVisible(!searchField.isVisible());
+            imageLabel.setVisible(!imageLabel.isVisible());
             toggleButton.setIcon(new ImageIcon(Variables.getImage((serverPanel.isVisible() ? "arrow_down" : "arrow_up"))));
         }
         else if (e.getSource() == searchField) {
             searchForServer();
         }
+        revalidate();
+        repaint();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        searchForServer();
         revalidate();
         repaint();
     }

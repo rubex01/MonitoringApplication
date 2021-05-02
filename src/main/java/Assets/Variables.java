@@ -31,11 +31,13 @@ public class Variables {
 
     public final static Color downtimeColor = new Color(252, 43, 63);
 
-    public final static Color outagesColor = new Color(131, 122, 229);
+    public final static Color outagesColor = new Color(136, 63, 255);
 
     public final static Color subText = new Color(141, 141, 141);
 
     public final static Color fileDropHover = new Color(0, 150, 255, 70);
+
+    public final static Color serverPool = new Color(84, 228, 202);
 
     public static Image getImage(String type) {
         try {

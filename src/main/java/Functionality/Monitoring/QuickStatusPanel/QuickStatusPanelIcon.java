@@ -23,6 +23,10 @@ public class QuickStatusPanelIcon extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        Graphics2D graphics2 = (Graphics2D) g;
+
+        graphics2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
         BufferedImage image = (BufferedImage) Variables.getImage("icon_template");
         for (int i = 0; i < image.getHeight(); i++) {
             for (int j = 0; j < image.getWidth(); j++) {
@@ -34,8 +38,8 @@ public class QuickStatusPanelIcon extends JPanel {
             }
         }
 
-        g.drawImage(image, 5, 5, 40, 40, null);
-        g.drawImage(Variables.getImage(imageName), 11, 11, 30, 30, null);
+        graphics2.drawImage(image, 5, 5, 40, 40, null);
+        graphics2.drawImage(Variables.getImage(imageName), 11, 11, 30, 30, null);
     }
 
     private static Color blend(Color c1, Color c2, float ratio) {

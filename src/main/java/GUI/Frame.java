@@ -43,7 +43,7 @@ public class Frame extends JFrame {
         hoverDropPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         JLabel imageLabel = new JLabel(new ImageIcon(Variables.getImage("open_file")));
-        JLabel textLabel = new JLabel("Sleep hier bestanden om ze te openen");
+        JLabel textLabel = new JLabel("Laat het bestand hier los om het te openen");
         textLabel.setForeground(Variables.white);
         textLabel.setFont(new Font(textLabel.getFont().getName(), Font.BOLD, 19));
         hoverDropPanel.add(imageLabel, gbc);

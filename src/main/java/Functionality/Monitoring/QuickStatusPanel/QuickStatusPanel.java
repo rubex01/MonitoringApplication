@@ -55,7 +55,7 @@ public class QuickStatusPanel extends JPanel {
         int newStatus = status;
         if (type != QuickStatusPanel.OUTAGES) {
             if (status < 60) {
-                time = "seconde";
+                time = "seconden";
                 newStatus = status;
             }
             else if ((status/60) < 59) {
@@ -124,8 +124,13 @@ public class QuickStatusPanel extends JPanel {
         super.paintComponent(g);
 
         g.setColor(Color.white);
+
         Graphics2D graphics2 = (Graphics2D) g;
-        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 8, 8);
+
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2.setRenderingHints(rh);
+
+        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 16, 16);
         graphics2.fill(roundedRectangle);
     }
 }

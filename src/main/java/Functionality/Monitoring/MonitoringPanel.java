@@ -2,6 +2,7 @@ package Functionality.Monitoring;
 
 import Functionality.Monitoring.ExtensiveStatusPanel.ExtensiveStatusPanel;
 import Functionality.Monitoring.QuickStatusPanel.QuickStatusPanel;
+import Functionality.Server;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -43,9 +44,9 @@ public class MonitoringPanel extends JPanel {
         JPanel extensiveStatusPanel = new JPanel();
         extensiveStatusPanel.setLayout(new GridLayout(1, 3, 10, 10));
 
-        extensiveStatusPanel1 = new ExtensiveStatusPanel();
-        extensiveStatusPanel2 = new ExtensiveStatusPanel();
-        extensiveStatusPanel3 = new ExtensiveStatusPanel();
+        extensiveStatusPanel1 = new ExtensiveStatusPanel(Server.FIREWALL);
+        extensiveStatusPanel2 = new ExtensiveStatusPanel(Server.WEBSERVER);
+        extensiveStatusPanel3 = new ExtensiveStatusPanel(Server.DATABASE);
 
         extensiveStatusPanel.add(extensiveStatusPanel1);
         extensiveStatusPanel.add(extensiveStatusPanel2);

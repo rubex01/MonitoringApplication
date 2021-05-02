@@ -34,13 +34,18 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Variables.overlayBubble);
-        g.fillOval(10, (imageLabel.getY()+20), 22, 22);
-        g.setColor(Variables.shadow);
-        g.fillOval(12, (imageLabel.getY()+22), 23, 23);
-        g.setColor(Variables.black);
-        g.setFont(new Font(imageLabel.getFont().getName(), Font.BOLD, 11));
-        g.drawString(collection.getAmount()+"x", 15, (imageLabel.getY()+35));
+        Graphics2D graphics2 = (Graphics2D) g;
+
+        graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+        graphics2.setColor(Variables.overlayBubble);
+        graphics2.fillOval(10, (imageLabel.getY()+20), 22, 22);
+        graphics2.setColor(Variables.shadow);
+        graphics2.fillOval(12, (imageLabel.getY()+22), 23, 23);
+        graphics2.setColor(Variables.black);
+        graphics2.setFont(new Font(imageLabel.getFont().getName(), Font.BOLD, 11));
+        graphics2.drawString(collection.getAmount()+"x", 15, (imageLabel.getY()+35));
 
         boolean foundWeb = false;
         boolean foundDB = false;
@@ -59,15 +64,15 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
             int circle1X = getWidth() - 50;
             int circle2X = getWidth() - 10;
 
-            Graphics2D g2d = (Graphics2D) g;
+
             Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                     0, new float[]{2}, 0);
-            g2d.setStroke(dashed);
-            g2d.drawLine(circle1X+3, lineY, circle2X, lineY);
+            graphics2.setStroke(dashed);
+            graphics2.drawLine(circle1X+3, lineY, circle2X, lineY);
 
-            g.setColor(Variables.connectionHighlight);
-            g.fillOval(circle1X, circleY, circleSize, circleSize);
-            g.fillOval(circle2X, circleY, circleSize, circleSize);
+            graphics2.setColor(Variables.connectionHighlight);
+            graphics2.fillOval(circle1X, circleY, circleSize, circleSize);
+            graphics2.fillOval(circle2X, circleY, circleSize, circleSize);
         }
     }
 
