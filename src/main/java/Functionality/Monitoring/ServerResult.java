@@ -20,8 +20,6 @@ public class ServerResult implements Serializable {
         this.type = type;
         this.sid = sid;
         this.uptime = uptime;
-
-        testingPurposes();
     }
 
     public int getUptime() {
@@ -54,14 +52,6 @@ public class ServerResult implements Serializable {
         this.online = online;
         this.downtime = downtime;
         this.uptime = uptime;
-
-        testingPurposes();
     }
 
-    private void testingPurposes() {
-        System.out.printf("Server " + serverName + " is currently ");
-        if (!online) System.out.printf("offline");
-        else System.out.printf("online");
-        System.out.println();
-    }
 }

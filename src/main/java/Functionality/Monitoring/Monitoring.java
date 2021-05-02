@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Monitoring extends TabModel implements Serializable {
 
@@ -33,7 +32,7 @@ public class Monitoring extends TabModel implements Serializable {
 
     @Override
     public JPanel getPanel() {
-        monitoringPanel = new MonitoringPanel();
+        if (monitoringPanel == null) monitoringPanel = new MonitoringPanel();
         return monitoringPanel;
     }
 

@@ -2,40 +2,39 @@ package Migrations;
 
 import Functionality.DatabaseConnection;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class RunMigrations {
 
-    private static ArrayList<Migration> migrations;
-
     private static String method;
+
+    private final static Migration[] migrations = {
+            new Blueprints()
+    };
 
     public static void runAllMigrations(String method) {
         RunMigrations.method = method;
 
-        migrations = new ArrayList<>();
-
-        addMigrations();
         runMigrations();
-
-        DatabaseConnection.closeConnection();
     }
 
     public static void runAllMigrations() {
         runAllMigrations("up");
     }
 
-    private static void addMigrations() {
-        migrations.add(new Blueprints());
-        // Add your migration file here
-    }
-
     private static void runMigrations() {
         for (Migration migration : migrations) {
-            migration.setConnection(DatabaseConnection.getConnection());
-            if (method.equals("up")) migration.runSQL();
-            else if (method.equals("down")) migration.downSQL();
+            try {
+                Statement stmt = DatabaseConnection.getConnection().createStatement();
+                String query = (method.equals("up") ? migration.up() : migration.down());
+                stmt.executeUpdate(query);
+            }
+            catch (SQLException exception) {
+                exception.printStackTrace();
+            }
         }
+        DatabaseConnection.closeConnection();
     }
 
 }

@@ -1,16 +1,9 @@
 package Migrations;
 
-import java.sql.Connection;
+public interface Migration {
 
-public abstract class Migration {
+    String up();
 
-    protected Connection connection;
+    String down();
 
-    public void setConnection(Connection dbConnection) {
-        this.connection = dbConnection;
-    }
-
-    public abstract void runSQL();
-
-    public abstract void downSQL();
 }

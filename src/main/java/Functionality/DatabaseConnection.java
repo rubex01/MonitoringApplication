@@ -9,7 +9,7 @@ public class DatabaseConnection {
 
     private static Connection dbConnection;
 
-    private static String connectString = "jdbc:mysql://localhost:3306/monitoring", username, password;
+    private static String connectString, username, password;
 
     public static Connection getConnection() {
         connectString = "jdbc:mysql://" + SettingsController.getSetting("database_host") + ":3306/" + SettingsController.getSetting("database");
@@ -18,7 +18,6 @@ public class DatabaseConnection {
 
         if (dbConnection != null) return dbConnection;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
             dbConnection = DriverManager.getConnection(connectString,username,password);
             return dbConnection;
         }

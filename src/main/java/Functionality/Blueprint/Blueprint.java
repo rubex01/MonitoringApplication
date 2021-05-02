@@ -46,6 +46,8 @@ public class Blueprint extends TabModel implements Serializable {
 
     @Override
     public JPanel getPanel() {
+        if (panel != null) return panel;
+
         panel = new JPanel();
         panel.setBackground(Variables.backgroundLighter);
         panel.setLayout(new BorderLayout());

@@ -30,11 +30,6 @@ public class ServerCollection implements Serializable {
         return amount;
     }
 
-    @Override
-    public String toString() {
-        return "Server: " + server.getName() + " amount: " + amount;
-    }
-
     public JPanel getPanel() {
         return new ServerVisualizationItem(this, parent);
     }

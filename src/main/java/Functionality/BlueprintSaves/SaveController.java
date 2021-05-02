@@ -76,6 +76,24 @@ public class SaveController {
         }
     }
 
+    public static void openBlueprint(String path) {
+        try {
+            FileInputStream file = new FileInputStream(path);
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            Blueprint blueprint = (Blueprint) in.readObject();
+
+            in.close();
+            file.close();
+
+            Frame.defaultFrame.getTabsBar().addTab(blueprint);
+            Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     public static boolean saveBlueprintOnline(Blueprint blueprint) {
         try {
             SaveOnlineDialog dialog = new SaveOnlineDialog(blueprint.getFileTitle());

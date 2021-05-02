@@ -13,8 +13,6 @@ public class SettingsController {
 
     private static final URL propertiesLocation = SettingsController.class.getResource("config.properties");
 
-    private static final URL defaultPropertiesLocation = SettingsController.class.getResource("default.properties");
-
     private static Properties properties;
 
     private static ArrayList<String[]> QueueList;
