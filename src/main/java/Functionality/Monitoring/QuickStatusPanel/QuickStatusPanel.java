@@ -5,6 +5,7 @@ import Assets.Variables;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class QuickStatusPanel extends JPanel {
 
@@ -23,8 +24,7 @@ public class QuickStatusPanel extends JPanel {
     public QuickStatusPanel(int type, int status) {
         this.type = type;
         this.status = status;
-        setLayout(new FlowLayout(FlowLayout.CENTER));
-        setBackground(Variables.white);
+        setLayout(new GridBagLayout());
 
         checkType();
         decideTextBasedOnTime(status);
@@ -81,7 +81,9 @@ public class QuickStatusPanel extends JPanel {
     }
 
     private void drawItems() {
-        add(new QuickStatusPanelIcon(typeColor, imageName));
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        add(new QuickStatusPanelIcon(typeColor, imageName), gbc);
         JPanel quickStatusInfo = new JPanel();
         quickStatusInfo.setBackground(Variables.white);
         quickStatusInfo.setLayout(new GridLayout(2, 1, 0, 0));
@@ -107,7 +109,7 @@ public class QuickStatusPanel extends JPanel {
         extraInfoLabel.setBorder(new EmptyBorder(-3, 6, 0, 0));
         quickStatusInfo.add(extraInfoLabel);
 
-        add(quickStatusInfo);
+        add(quickStatusInfo, gbc);
     }
 
     public void updateTrigger(int newValue) {
@@ -117,4 +119,13 @@ public class QuickStatusPanel extends JPanel {
         extraInfoLabel.setText(extraInfo);
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.setColor(Color.white);
+        Graphics2D graphics2 = (Graphics2D) g;
+        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 8, 8);
+        graphics2.fill(roundedRectangle);
+    }
 }

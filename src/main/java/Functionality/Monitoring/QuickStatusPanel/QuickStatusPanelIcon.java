@@ -23,19 +23,19 @@ public class QuickStatusPanelIcon extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-            BufferedImage image = (BufferedImage) Variables.getImage("icon_template");
-            for (int i = 0; i < image.getHeight(); i++) {
-                for (int j = 0; j < image.getWidth(); j++) {
-                    if (image.getRGB(i, j) != 0) {
-                        Color imageColor = new Color(image.getRGB(i, j));
-                        Color finalColor = blend(imageColor, typeColor, 0.7f);
-                        image.setRGB(i, j, finalColor.getRGB());
-                    }
+        BufferedImage image = (BufferedImage) Variables.getImage("icon_template");
+        for (int i = 0; i < image.getHeight(); i++) {
+            for (int j = 0; j < image.getWidth(); j++) {
+                if (image.getRGB(i, j) != 0) {
+                    Color imageColor = new Color(image.getRGB(i, j));
+                    Color finalColor = blend(imageColor, typeColor, 0.7f);
+                    image.setRGB(i, j, finalColor.getRGB());
                 }
             }
+        }
 
-            g.drawImage(image, 0, 0, 40, 40, null);
-            g.drawImage(Variables.getImage(imageName), 6, 6, 30, 30, null);
+        g.drawImage(image, 5, 5, 40, 40, null);
+        g.drawImage(Variables.getImage(imageName), 11, 11, 30, 30, null);
     }
 
     private static Color blend(Color c1, Color c2, float ratio) {

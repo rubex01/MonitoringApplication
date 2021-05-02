@@ -35,8 +35,7 @@ public class TabButton extends JPanel implements MouseListener, Serializable {
         add(title);
 
         if (child.isClosable()) {
-            JButton jbClose = new JButton();
-            jbClose = new JButton("");
+            JButton jbClose = new JButton("");
             jbClose.setBackground(Variables.transparent);
             jbClose.setBorderPainted(false);
             jbClose.setFocusPainted(false);

@@ -25,7 +25,7 @@ public class MonitoringPanel extends JPanel {
     private void drawQuickStatus() {
         JPanel quickStatusPanel = new JPanel();
         quickStatusPanel.setLayout(new GridLayout(1, 3, 10, 10));
-        quickStatusPanel.setPreferredSize(new Dimension(500, 75));
+        quickStatusPanel.setPreferredSize(new Dimension(500, 80));
         quickStatusPanel.setBorder(new EmptyBorder(0,0,10,0));
 
         quickStatusPanel1 = new QuickStatusPanel(QuickStatusPanel.UPTIME, 0);
