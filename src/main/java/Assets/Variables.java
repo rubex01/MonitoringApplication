@@ -35,6 +35,8 @@ public class Variables {
 
     public final static Color subText = new Color(141, 141, 141);
 
+    public final static Color fileDropHover = new Color(0, 150, 255, 70);
+
     private final static String[] images = {"star", "open_file", "toggle_on", "clock_shadow", "offline_shadow", "toggle_off", "folder", "logo", "new_file", "reset", "close", "database", "firewall", "icon_template", "webserver", "arrow_up", "arrow_down", "save", "save_online", "open_online", "search", "settings"};
 
     public static Image getImage(String type) {

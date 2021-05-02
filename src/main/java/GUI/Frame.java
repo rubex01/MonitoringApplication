@@ -39,7 +39,7 @@ public class Frame extends JFrame {
 
     private void createHoverDropPanel() {
         hoverDropPanel = new JPanel();
-        hoverDropPanel.setBackground(new Color(0, 150, 255, 70));
+        hoverDropPanel.setBackground(Variables.fileDropHover);
         hoverDropPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         JLabel imageLabel = new JLabel(new ImageIcon(Variables.getImage("open_file")));
