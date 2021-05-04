@@ -37,7 +37,11 @@ public class Variables {
 
     public final static Color fileDropHover = new Color(0, 150, 255, 70);
 
-    public final static Color serverPool = new Color(84, 228, 202);
+    public final static Color serverPool = new Color(123, 123, 123);
+
+    public final static Color onlineColor = new Color(39, 255, 160);
+
+    public final static Color offlineColor = new Color(255, 96, 96);
 
     public static Image getImage(String type) {
         try {

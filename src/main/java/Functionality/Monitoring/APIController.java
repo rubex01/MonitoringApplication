@@ -22,6 +22,8 @@ public class APIController extends TimerTask implements Serializable {
 
     private Monitoring parent;
 
+    private int reconnectionTries = 0;
+
     public APIController(Monitoring parent) {
         this.parent = parent;
         serverResults = new ArrayList<>();
@@ -58,6 +60,11 @@ public class APIController extends TimerTask implements Serializable {
         catch (Exception exception) {
 //            TODO: give error
             System.out.println("OOPS, could not send request to the api.");
+            if (reconnectionTries < 5) {
+                SSHClient.closeConnection();
+                SSHClient.getSession();
+                reconnectionTries++;
+            }
         }
     }
 
@@ -86,7 +93,9 @@ public class APIController extends TimerTask implements Serializable {
                                     stringlist.get(65),
                                     (stringlist.get(17).equals("UP") || stringlist.get(17).equals("OPEN")),
                                     (stringlist.get(24).equals("") ? 0 : Integer.valueOf(stringlist.get(24))),
-                                    (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23)))
+                                    (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23))),
+                                    (stringlist.get(8).equals("") ? 0 : Integer.valueOf(stringlist.get(8))),
+                                    (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9)))
                             );
                         }
                     }
@@ -108,7 +117,9 @@ public class APIController extends TimerTask implements Serializable {
                                             )
                             ),
                             Integer.valueOf(stringlist.get(28)),
-                            (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23)))
+                            (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23))),
+                            (stringlist.get(8).equals("") ? 0 : Integer.valueOf(stringlist.get(8))),
+                            (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9)))
                     ));
                 }
                 else if (APIController.databaseServerPoolName.equals(stringlist.get(0)) || APIController.webServerPoolName.equals(stringlist.get(0)) && (stringlist.get(1).equals("BACKEND"))) {
@@ -120,7 +131,9 @@ public class APIController extends TimerTask implements Serializable {
                             existingResult.updateStatus(
                                     (stringlist.get(17).equals("UP")),
                                     Integer.valueOf(stringlist.get(24)),
-                                    Integer.valueOf(stringlist.get(23))
+                                    Integer.valueOf(stringlist.get(23)),
+                                    Integer.valueOf(stringlist.get(8)),
+                                    Integer.valueOf(stringlist.get(9))
                             );
                         }
                     }
@@ -131,13 +144,16 @@ public class APIController extends TimerTask implements Serializable {
                             (stringlist.get(17).equals("UP")),
                             Integer.valueOf(stringlist.get(24)),
                             type,
-                            Integer.valueOf(stringlist.get(23))
+                            Integer.valueOf(stringlist.get(23)),
+                            Integer.valueOf(stringlist.get(8)),
+                            Integer.valueOf(stringlist.get(9))
                     ));
                 }
             }
             startUpdateCycle();
         }
-        catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+        catch (Exception exception) {
+            exception.printStackTrace();
             System.out.println("Oops, the api sent back an invalid response.");
 //            TODO: give right error
         }

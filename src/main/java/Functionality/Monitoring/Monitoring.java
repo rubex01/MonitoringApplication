@@ -23,7 +23,7 @@ public class Monitoring extends TabModel implements Serializable {
         apiController = new APIController(this);
 
         Timer timer = new Timer();
-        timer.schedule(apiController, 0,6000);
+        timer.schedule(apiController, 500,6000);
     }
 
     public void startUpdateCycle(ArrayList<ServerResult> serverResults, ArrayList<PoolResult> poolResults) {

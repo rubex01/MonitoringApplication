@@ -60,17 +60,45 @@ public class MonitoringPanel extends JPanel {
         int uptime = -1;
         int downtime = 0;
         boolean poolDown = false;
+        ArrayList<ServerResult> firewallServers = new ArrayList<>();
+        ArrayList<ServerResult> webservers = new ArrayList<>();
+        ArrayList<ServerResult> databaseServers = new ArrayList<>();
+        PoolResult webserverPool = null;
+        PoolResult databasePool = null;
         for (PoolResult poolStatus : poolResults) {
             downtime += poolStatus.getDowntime();
             if (!poolStatus.isOnline()) poolDown = true;
             if (poolStatus.getUptime() < uptime || uptime == -1) uptime = poolStatus.getUptime();
+            switch (poolStatus.getType()) {
+                case Server.DATABASE:
+                    databasePool = poolStatus;
+                    break;
+                case Server.WEBSERVER:
+                    webserverPool = poolStatus;
+                    break;
+            }
         }
         for (ServerResult status : serverResults) {
             if (!status.isOnline()) currentOut++;
+            switch (status.getType()) {
+                case Server.DATABASE:
+                    databaseServers.add(status);
+                    break;
+                case Server.FIREWALL:
+                    firewallServers.add(status);
+                    break;
+                case Server.WEBSERVER:
+                    webservers.add(status);
+                    break;
+            }
         }
         quickStatusPanel1.updateTrigger(poolDown ? 0 : uptime);
         quickStatusPanel2.updateTrigger(downtime);
         quickStatusPanel3.updateTrigger(currentOut);
+
+        extensiveStatusPanel1.updateTrigger(firewallServers, null);
+        extensiveStatusPanel2.updateTrigger(webservers, webserverPool);
+        extensiveStatusPanel3.updateTrigger(databaseServers, databasePool);
     }
 
 }

@@ -31,6 +31,6 @@ public class SSHClient {
     }
 
     public static void closeConnection() {
-        sshSession.disconnect();
+        if (sshSession != null) sshSession.disconnect();
     }
 }
