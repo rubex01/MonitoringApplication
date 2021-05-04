@@ -1,0 +1,7 @@
+pfSense,4000,firewall,99.998
+HAL9001DB,5100,database,90
+HAL9002DB,7700,database,95
+HAL9003DB,12200,database,98
+HAL9001W,2200,webserver,80
+HAL9002W,3200,webserver,90
+HAL9003W,5100,webserver,95
