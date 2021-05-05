@@ -1,5 +1,6 @@
 package Functionality.Blueprint;
 
+import Assets.DefaultScrollPane;
 import Assets.Variables;
 import Functionality.Server;
 
@@ -18,7 +19,7 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
 
     private JPanel serverPanel;
 
-    private JScrollPane scrollPane;
+    private DefaultScrollPane scrollPane;
 
     private JButton toggleButton;
 
@@ -76,10 +77,10 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
 
         add(serverPanel, BorderLayout.CENTER);
 
-        scrollPane = new JScrollPane(serverPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane = new DefaultScrollPane(serverPanel);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
         add(scrollPane);
     }
 

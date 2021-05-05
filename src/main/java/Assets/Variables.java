@@ -3,7 +3,6 @@ package Assets;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Variables {
 
@@ -42,6 +41,10 @@ public class Variables {
     public final static Color onlineColor = new Color(39, 255, 160);
 
     public final static Color offlineColor = new Color(255, 96, 96);
+
+    public final static Color scrollThumbColor = new Color(99, 99, 99);
+
+    public final static int scrollBarWidth = 5;
 
     public static Image getImage(String type) {
         try {

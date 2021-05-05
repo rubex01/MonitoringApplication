@@ -26,6 +26,7 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
 
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 35, 10, 55));
+        setBackground(Variables.backgroundLighter);
 
         drawPanel();
     }
@@ -83,6 +84,7 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.setBackground(Variables.backgroundLighter);
         infoPanel.add(new JLabel(collection.getServer().getName()));
         JLabel infoLabel = new JLabel("€" + collection.getServer().getPrice() + " " + collection.getServer().getUptime() + "%");
         infoLabel.setFont(new Font(infoLabel.getFont().getName(), Font.PLAIN, 11));
@@ -92,6 +94,7 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
 
         JPanel actionPanel = new JPanel();
         actionPanel.setLayout(new FlowLayout());
+        actionPanel.setBackground(Variables.backgroundLighter);
 
         min = new JButton("- 1");
         min.setBackground(Variables.transparent);

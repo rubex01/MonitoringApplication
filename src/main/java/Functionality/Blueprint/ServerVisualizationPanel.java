@@ -1,5 +1,6 @@
 package Functionality.Blueprint;
 
+import Assets.Variables;
 import Functionality.Server;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ public class ServerVisualizationPanel extends JPanel implements Serializable {
 
     public ServerVisualizationPanel(Blueprint parent) {
         this.parent = parent;
+        setBackground(Variables.backgroundLighter);
+
         drawPanels();
     }
 

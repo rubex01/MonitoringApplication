@@ -1,5 +1,6 @@
 package Functionality.Blueprint;
 
+import Assets.DefaultScrollPane;
 import Assets.Variables;
 import Functionality.BlueprintSaves.SaveController;
 import Functionality.Server;
@@ -9,6 +10,7 @@ import GUI.TabModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -60,14 +62,20 @@ public class Blueprint extends TabModel implements Serializable {
         serverVisualizerPanel.drawServers();
         calculatePriceAndUptime();
 
-        JScrollPane scrollPane = new JScrollPane(serverVisualizerPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        DefaultScrollPane scrollPane = new DefaultScrollPane(serverVisualizerPanel);
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+
         panel.add(scrollPane);
 
+        MouseAdapter ma = new BlueprintDrag(this);
+        serverVisualizerPanel.addMouseListener(ma);
+        serverVisualizerPanel.addMouseMotionListener(ma);
+
         return panel;
+    }
+
+    public ServerVisualizationPanel getServerVisualizerPanel() {
+        return serverVisualizerPanel;
     }
 
     public void setSavePath(String path) {

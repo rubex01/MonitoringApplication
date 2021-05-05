@@ -1,5 +1,6 @@
 package Functionality.Monitoring;
 
+import Functionality.Settings.SettingsController;
 import GUI.TabModel;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class Monitoring extends TabModel implements Serializable {
         apiController = new APIController(this);
 
         Timer timer = new Timer();
-        timer.schedule(apiController, 500,6000);
+        timer.schedule(apiController, 500, (Integer.valueOf(SettingsController.getSetting("check_interval"))*1000));
     }
 
     public void startUpdateCycle(ArrayList<ServerResult> serverResults, ArrayList<PoolResult> poolResults) {
