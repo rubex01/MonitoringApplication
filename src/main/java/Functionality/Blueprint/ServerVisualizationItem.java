@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
 
 public class ServerVisualizationItem extends JPanel implements Serializable, ActionListener {
@@ -40,10 +41,12 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
         graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-        graphics2.setColor(Variables.overlayBubble);
-        graphics2.fillOval(10, (imageLabel.getY()+20), 22, 22);
-        graphics2.setColor(Variables.shadow);
-        graphics2.fillOval(12, (imageLabel.getY()+22), 23, 23);
+        graphics2.setColor(Variables.onlineColor);
+        RoundRectangle2D contentRectangle = new RoundRectangle2D.Float(10, (imageLabel.getY()+20), 22, 22, 5, 5);
+        graphics2.fill(contentRectangle);
+        graphics2.setColor(Variables.onlineColor.darker());
+        graphics2.draw(contentRectangle);
+
         graphics2.setColor(Variables.black);
         graphics2.setFont(new Font(imageLabel.getFont().getName(), Font.BOLD, 11));
         graphics2.drawString(collection.getAmount()+"x", 15, (imageLabel.getY()+35));
@@ -59,19 +62,18 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
                 (collection.getServer().getType() == Server.FIREWALL && foundWeb == true) ||
                 (collection.getServer().getType() == Server.WEBSERVER && foundDB == true)
         ) {
-            int circleSize = 10;
+            int circleSize = 6;
             int circleY = (getHeight()/2+(circleSize/2));
             int lineY = circleY+circleSize/2;
             int circle1X = getWidth() - 50;
             int circle2X = getWidth() - 10;
 
-
+            graphics2.setColor(Variables.nonFocus);
             Stroke dashed = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
                     0, new float[]{2}, 0);
             graphics2.setStroke(dashed);
             graphics2.drawLine(circle1X+3, lineY, circle2X, lineY);
 
-            graphics2.setColor(Variables.connectionHighlight);
             graphics2.fillOval(circle1X, circleY, circleSize, circleSize);
             graphics2.fillOval(circle2X, circleY, circleSize, circleSize);
         }

@@ -4,6 +4,8 @@ import Assets.Variables;
 import Functionality.Server;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -18,6 +20,24 @@ public class ServerVisualizationPanel extends JPanel implements Serializable {
         setBackground(Variables.backgroundLighter);
 
         drawPanels();
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        setBorder(new EmptyBorder(0, 0, 0, 0));
+
+        int totalHeight = getHeight();
+        int contentHeight = 0;
+
+        if(fwPanel.getHeight() > wbPanel.getHeight() && fwPanel.getHeight() > dbPanel.getHeight()) contentHeight = fwPanel.getHeight();
+        else if (wbPanel.getHeight() > dbPanel.getHeight()) contentHeight = wbPanel.getHeight();
+        else contentHeight = dbPanel.getHeight();
+
+        int paddingTop = (totalHeight - contentHeight)/2;
+        setBorder(new EmptyBorder(paddingTop, 0, 0, 0));
+
     }
 
     public void drawPanels() {
