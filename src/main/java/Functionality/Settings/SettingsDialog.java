@@ -1,5 +1,7 @@
 package Functionality.Settings;
 
+import Assets.DefaultScrollPane;
+import Assets.DefaultButton;
 import Assets.Variables;
 import GUI.Frame;
 
@@ -16,7 +18,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private ArrayList<SettingItem> settingItems;
 
-    private JButton jbOk;
+    private DefaultButton jbOk;
 
     public SettingsDialog() {
         super(Frame.defaultFrame, true);
@@ -46,6 +48,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingItems.add(new SettingItem("ssh_host", "Host", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("ssh_user", "Gebruikersnaam", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("ssh_password", "Wachtwoord", SettingItem.PASSWORD, true));
+        settingItems.add(new SettingItem("check_interval", "Checking interval", SettingItem.TEXT, true));
         // Add setting items here
     }
 
@@ -54,10 +57,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        JScrollPane scrollPane = new JScrollPane(settingsPanel);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        DefaultScrollPane scrollPane = new DefaultScrollPane(settingsPanel);
         scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Variables.nonFocus));
 
         for (SettingItem item : settingItems) {
@@ -67,9 +67,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        jbOk = new JButton("Opslaan");
+        jbOk = new DefaultButton("Opslaan");
         jbOk.addActionListener(this);
-        JButton jbCancel = new JButton("Annuleren");
+        DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
 
         buttonPanel.add(jbOk);

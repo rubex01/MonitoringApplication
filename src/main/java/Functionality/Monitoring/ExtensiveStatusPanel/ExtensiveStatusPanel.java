@@ -1,5 +1,6 @@
 package Functionality.Monitoring.ExtensiveStatusPanel;
 
+import Assets.DefaultScrollPane;
 import Assets.Variables;
 import Functionality.Monitoring.PoolResult;
 import Functionality.Monitoring.ServerResult;
@@ -25,7 +26,7 @@ public class ExtensiveStatusPanel extends JPanel {
         this.type = type;
 
         setBorder(new EmptyBorder(0, 21, 21, 21));
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new BorderLayout());
 
         drawItems();
     }
@@ -58,8 +59,8 @@ public class ExtensiveStatusPanel extends JPanel {
         JLabel title = new JLabel(getTitleText());
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 15));
         title.setForeground(new Color(68, 68, 68));
-        title.setBorder(new EmptyBorder(3, 30, 10, 1050));
-        add(title);
+        title.setBorder(new EmptyBorder(8, 30, 12, 0));
+        add(title, BorderLayout.NORTH);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(new Color(0, 0, 0, 0));
@@ -81,9 +82,13 @@ public class ExtensiveStatusPanel extends JPanel {
 
         serverPanel = new JPanel();
         serverPanel.setBackground(Variables.white);
-        contentPanel.add(serverPanel, BorderLayout.CENTER);
+        serverPanel.setLayout(new GridBagLayout());
 
-        add(contentPanel);
+        DefaultScrollPane scrollPane = new DefaultScrollPane(serverPanel);
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0 , 0));
+        contentPanel.add(scrollPane, BorderLayout.CENTER);
+
+        add(contentPanel, BorderLayout.CENTER);
     }
 
     private String decideTextBasedOnTime(int time) {
@@ -125,11 +130,19 @@ public class ExtensiveStatusPanel extends JPanel {
             uploadLabel.setText("Download: " + decideTextBasedOnSize(serverResults.get(1).getBytesOut()));
         }
         serverPanel.removeAll();
-        serverPanel.setLayout(new GridLayout(serverResults.size(), 0, 0, 10));
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1.0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridx = 0;
         for (ServerResult serverResult : serverResults) {
             if (serverResult.getType() == Server.FIREWALL && serverResult.getServerName().equals("FRONTEND")) continue;
-            serverPanel.add(serverResult.paintSelf());
+            serverPanel.add(serverResult.paintSelf(), c);
+            serverPanel.add(Box.createRigidArea(new Dimension(0, 5)), c);
         }
+        c.weighty = 1.0;
+        serverPanel.add( Box.createVerticalGlue(), c);
         repaint();
     }
 
@@ -137,7 +150,7 @@ public class ExtensiveStatusPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.white);
+        g.setColor(Variables.white);
         Graphics2D graphics2 = (Graphics2D) g;
 
         graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

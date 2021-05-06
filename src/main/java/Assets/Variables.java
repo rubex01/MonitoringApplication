@@ -3,7 +3,6 @@ package Assets;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Variables {
 
@@ -15,17 +14,11 @@ public class Variables {
 
     public final static Color black = Color.BLACK;
 
-    public final static Color shadow = new Color(0, 0, 0, 30);
-
     public final static Color focus = new Color(242, 242, 242);
 
     public final static Color nonFocus = new Color(214, 213, 213);
 
     public final static Color transparent = new Color(0, 0, 0, 0);
-
-    public final static Color overlayBubble = new Color(39, 124, 120, 90);
-
-    public final static Color connectionHighlight = new Color(76, 255, 182);
 
     public final static Color uptimeColor = new Color(29, 137, 241);
 
@@ -42,6 +35,12 @@ public class Variables {
     public final static Color onlineColor = new Color(39, 255, 160);
 
     public final static Color offlineColor = new Color(255, 96, 96);
+
+    public final static Color scrollThumbColor = new Color(99, 99, 99);
+
+    public final static int scrollBarWidth = 5;
+
+    public final static Color defaultButtonColor = new Color(37, 39, 53);
 
     public static Image getImage(String type) {
         try {

@@ -1,5 +1,6 @@
 package Functionality.BlueprintSaves;
 
+import Assets.DefaultButton;
 import Functionality.DatabaseConnection;
 import GUI.Frame;
 
@@ -16,7 +17,7 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
 
     private JTextField jtFilename;
 
-    private JButton jbOk;
+    private DefaultButton jbOk;
 
     private boolean okPressed = false, overwrite = false;
 
@@ -59,9 +60,9 @@ public class SaveOnlineDialog extends JDialog implements ActionListener, KeyList
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        jbOk = new JButton("Opslaan");
+        jbOk = new DefaultButton("Opslaan");
         jbOk.addActionListener(this);
-        JButton jbCancel = new JButton("Annuleren");
+        DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
 
         warning = new JLabel();

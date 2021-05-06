@@ -1,5 +1,7 @@
 package Functionality.BlueprintSaves;
 
+import Assets.DefaultButton;
+import Assets.DefaultScrollPane;
 import Assets.Variables;
 import Functionality.DatabaseConnection;
 import GUI.Frame;
@@ -19,7 +21,7 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
 
     private JTextField jtfSearch;
 
-    private JButton jbOpen;
+    private DefaultButton jbOpen;
 
     private JList serversPanel;
 
@@ -62,13 +64,12 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
         serversPanel.setBackground(Variables.backgroundLighter);
         serversPanel.setFixedCellHeight(30);
         serversPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(serversPanel);
+        DefaultScrollPane scrollPane = new DefaultScrollPane(serversPanel);
         scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Variables.nonFocus));
 
-        jbOpen = new JButton("Openen");
+        jbOpen = new DefaultButton("Openen");
         jbOpen.addActionListener(this);
-        JButton jbCancel = new JButton("Annuleren");
+        DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
 
         JPanel buttonPanel = new JPanel();

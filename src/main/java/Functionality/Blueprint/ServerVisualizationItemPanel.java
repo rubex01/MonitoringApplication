@@ -1,5 +1,7 @@
 package Functionality.Blueprint;
 
+import Assets.Variables;
+
 import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class ServerVisualizationItemPanel extends JPanel implements Serializable
         this.type = type;
         serverCollections = new ArrayList<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(Variables.backgroundLighter);
         drawToPanels();
         setVisible(false);
     }
