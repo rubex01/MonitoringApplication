@@ -1,6 +1,7 @@
 package Functionality.Settings;
 
 import Assets.DefaultScrollPane;
+import Assets.DefaultButton;
 import Assets.Variables;
 import GUI.Frame;
 
@@ -17,7 +18,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
     private ArrayList<SettingItem> settingItems;
 
-    private JButton jbOk;
+    private DefaultButton jbOk;
 
     public SettingsDialog() {
         super(Frame.defaultFrame, true);
@@ -66,9 +67,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        jbOk = new JButton("Opslaan");
+        jbOk = new DefaultButton("Opslaan");
         jbOk.addActionListener(this);
-        JButton jbCancel = new JButton("Annuleren");
+        DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
 
         buttonPanel.add(jbOk);

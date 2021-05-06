@@ -22,10 +22,6 @@ public class Variables {
 
     public final static Color transparent = new Color(0, 0, 0, 0);
 
-    public final static Color overlayBubble = new Color(39, 124, 120, 90);
-
-    public final static Color connectionHighlight = new Color(76, 255, 182);
-
     public final static Color uptimeColor = new Color(29, 137, 241);
 
     public final static Color downtimeColor = new Color(252, 43, 63);
@@ -45,6 +41,8 @@ public class Variables {
     public final static Color scrollThumbColor = new Color(99, 99, 99);
 
     public final static int scrollBarWidth = 5;
+
+    public final static Color defaultButtonColor = new Color(37, 39, 53);
 
     public static Image getImage(String type) {
         try {

@@ -1,5 +1,6 @@
 package Functionality.Settings.SettingPanels;
 
+import Assets.DefaultButton;
 import Functionality.Settings.SettingItem;
 import GUI.Frame;
 
@@ -12,7 +13,7 @@ public class FilePanel extends SettingPanel implements ActionListener {
 
     private JLabel currentLocation;
 
-    private JButton openExplorer;
+    private DefaultButton openExplorer;
 
     public FilePanel(SettingItem parent) {
         super(parent);
@@ -23,7 +24,7 @@ public class FilePanel extends SettingPanel implements ActionListener {
         JPanel items = new JPanel();
         items.setLayout(new BoxLayout(items, BoxLayout.Y_AXIS));
 
-        openExplorer = new JButton("Verander locatie");
+        openExplorer = new DefaultButton("Verander locatie");
         openExplorer.addActionListener(this);
 
         currentLocation = new JLabel();
