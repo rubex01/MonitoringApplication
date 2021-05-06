@@ -147,14 +147,17 @@ public class Blueprint extends TabModel implements Serializable {
     public boolean closeCheck() {
         if (savedState != currentState) {
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(panel, "Wilt u de wijzigingen in " + getTitle() + " opslaan?","Let op", dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog(panel, "Wilt u de wijzigingen in \"" + getFileTitle() + "\" opslaan?","Let op", dialogButton);
             if(dialogResult == JOptionPane.YES_OPTION){
                 if (onlineSaved == false) {
-                    boolean saveResult = !SaveController.saveBlueprint(this);
+                    boolean saveResult = SaveController.saveBlueprint(this);
                     return saveResult;
                 }
-                boolean saveResult = !SaveController.saveBlueprintOnline(this);
+                boolean saveResult = SaveController.saveBlueprintOnline(this);
                 return saveResult;
+            }
+            else if (dialogResult == JOptionPane.CLOSED_OPTION) {
+                return false;
             }
         }
         return true;
