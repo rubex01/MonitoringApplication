@@ -14,8 +14,6 @@ public class Variables {
 
     public final static Color black = Color.BLACK;
 
-    public final static Color shadow = new Color(0, 0, 0, 30);
-
     public final static Color focus = new Color(242, 242, 242);
 
     public final static Color nonFocus = new Color(214, 213, 213);

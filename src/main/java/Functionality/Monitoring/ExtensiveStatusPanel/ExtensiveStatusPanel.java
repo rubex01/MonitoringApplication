@@ -150,7 +150,7 @@ public class ExtensiveStatusPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.white);
+        g.setColor(Variables.white);
         Graphics2D graphics2 = (Graphics2D) g;
 
         graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
