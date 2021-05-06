@@ -4,6 +4,7 @@ import Assets.Variables;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
@@ -59,7 +60,10 @@ public class TabButton extends JPanel implements MouseListener, Serializable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == this) {
+        if (e.getModifiersEx() == InputEvent.ALT_DOWN_MASK) {
+            child.close();
+        }
+        else if (e.getSource() == this) {
             child.setFocus();
         }
         else if (e.getSource() instanceof JButton) {

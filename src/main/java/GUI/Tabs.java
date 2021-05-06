@@ -1,5 +1,6 @@
 package GUI;
 
+import Assets.DefaultScrollPane;
 import Assets.Variables;
 
 import javax.swing.*;
@@ -28,7 +29,12 @@ public class Tabs extends JPanel {
         tabBar.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         tabBar.setBorder(new EmptyBorder(4, 5, 0, 5));
         tabBar.setBackground(Variables.white);
-        add(tabBar, BorderLayout.NORTH);
+
+        DefaultScrollPane scrollPane = new DefaultScrollPane(tabBar);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+        add(scrollPane, BorderLayout.NORTH);
     }
 
     public void addTab(TabModel tab) {
