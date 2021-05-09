@@ -26,6 +26,29 @@ public class NavigationBar extends JMenuBar implements ActionListener {
         setBorder(new EmptyBorder(6, 3, 6, 3));
         setBackground(Variables.background);
         drawOptions();
+        setStyling();
+    }
+
+    private void setStyling() {
+        MenuElement[] menuElements = jmbMenu.getSubElements();
+
+        for (MenuElement popupMenuElement : menuElements) {
+
+            JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
+            popupMenu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Variables.focus ));
+
+            MenuElement[] menuItems = popupMenuElement.getSubElements();
+
+            for (MenuElement menuItemElement : menuItems) {
+                JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
+                menuItem.setBackground(Variables.background);
+                menuItem.setOpaque(true);
+                menuItem.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                menuItem.setFocusPainted(false);
+                menuItem.setBorderPainted(false);
+                menuItem.setContentAreaFilled(false);
+            }
+        }
     }
 
     public void drawOptions() {
