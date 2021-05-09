@@ -29,10 +29,17 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
 
     private Blueprint parent;
 
+    private Timer animationTimer;
+
+    private int animationOffset;
+
+    private boolean visible = true;
+
     public ServerListPanel(Blueprint parent) {
         this.parent = parent;
         setBackground(Variables.backgroundLighter);
         setLayout(new BorderLayout());
+        animationTimer = new Timer(1, this);
         drawPanels();
     }
 
@@ -125,14 +132,45 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
         }
     }
 
+    private void downAnimation() {
+        setBorder(new EmptyBorder(0, 0, animationOffset, 0));
+        animationOffset--;
+        if (animationOffset == -131) {
+            animationTimer.stop();
+            setBorder(new EmptyBorder(0, 0, 0, 0));
+            setVisibility(false);
+            toggleButton.setIcon(new ImageIcon(Variables.getImage("arrow_up")));
+            visible = false;
+        }
+    }
+
+    private void setVisibility(boolean value) {
+        serverPanel.setVisible(value);
+        scrollPane.setVisible(value);
+        searchField.setVisible(value);
+        imageLabel.setVisible(value);
+    }
+
+    private void upAnimation() {
+        setVisibility(true);
+        setBorder(new EmptyBorder(0, 0, animationOffset, 0));
+        animationOffset++;
+        if (animationOffset == 0) {
+            animationTimer.stop();
+            setBorder(new EmptyBorder(0, 0, 0, 0));
+            toggleButton.setIcon(new ImageIcon(Variables.getImage("arrow_down")));
+            visible = true;
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == toggleButton) {
-            serverPanel.setVisible(!serverPanel.isVisible());
-            scrollPane.setVisible(!scrollPane.isVisible());
-            searchField.setVisible(!searchField.isVisible());
-            imageLabel.setVisible(!imageLabel.isVisible());
-            toggleButton.setIcon(new ImageIcon(Variables.getImage((serverPanel.isVisible() ? "arrow_down" : "arrow_up"))));
+        if (e.getSource() instanceof Timer) {
+            if (visible) downAnimation();
+            else upAnimation();
+        }
+        else if (e.getSource() == toggleButton) {
+            animationTimer.start();
         }
         else if (e.getSource() == searchField) {
             searchForServer();

@@ -174,7 +174,8 @@ public class ExtensiveStatusPanel extends JPanel {
 
         graphics2.drawImage(Variables.getImage("shadow"), 8, 16, null);
 
-        graphics2.setColor(Variables.serverPool);
+        GradientPaint gradient = new GradientPaint(0, 0, Variables.serverPool.brighter(), 38, 38, Variables.serverPool.darker());
+        graphics2.setPaint(gradient);
         graphics2.fillOval(10, 0, 38, 38);
 
         graphics2.drawImage(Variables.getImage(getImageName()), 16, 6, 26, 26, null);
