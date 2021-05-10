@@ -57,7 +57,7 @@ public class ServerVisualizationPanel extends JPanel implements Serializable {
         for (Server server : parent.getServers()) {
             boolean found = false;
             for (ServerCollection collection : serverCollections) {
-                if (server == collection.getServer()) {
+                if (collection.getServer().equals(server)) {
                     collection.incrementOne();
                     found = true;
                 }

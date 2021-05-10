@@ -4,6 +4,7 @@ import Assets.Variables;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Server implements Serializable {
 
@@ -66,5 +67,14 @@ public class Server implements Serializable {
     @Override
     public String toString() {
         return "[name: " + name + ", price: " + price + ", type: " + getTypeName() + ", uptime: " + uptime + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        Server server = (Server) o;
+        return Objects.equals(name, server.name) && Objects.equals(type, server.type) && Objects.equals(price, server.price) && Objects.equals(uptime, server.uptime);
     }
 }
