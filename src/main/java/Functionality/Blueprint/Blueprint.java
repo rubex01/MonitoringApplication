@@ -32,10 +32,14 @@ public class Blueprint extends TabModel implements Serializable {
 
     private int currentState = 0, savedState = 0;
 
-    public Blueprint() {
-        super("Nieuw ontwerp");
+    public Blueprint(String title) {
+        super(title);
         if (currentBlueprintServerList == null) currentBlueprintServerList = ServerParser.parseServers();
         selectedServers = new ArrayList<>();
+    }
+
+    public Blueprint() {
+        this("Nieuw ontwerp");
     }
 
     public ArrayList<Server> getCurrentBlueprintServerList() {
@@ -84,6 +88,12 @@ public class Blueprint extends TabModel implements Serializable {
 
     public String getSavePath() {
         return savePath;
+    }
+
+    public void addBulk(ArrayList<Server> serverList) {
+        for (Server server : serverList) selectedServers.add(server);
+        serverVisualizerPanel.drawServers();
+        calculatePriceAndUptime();
     }
 
     public void addServer(Server server){

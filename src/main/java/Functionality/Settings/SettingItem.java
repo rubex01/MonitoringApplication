@@ -1,5 +1,6 @@
 package Functionality.Settings;
 
+import Assets.Variables;
 import Functionality.Settings.SettingPanels.BooleanPanel;
 import Functionality.Settings.SettingPanels.FilePanel;
 import Functionality.Settings.SettingPanels.PasswordPanel;
@@ -8,6 +9,7 @@ import Functionality.Settings.SettingPanels.TextPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class SettingItem {
 
@@ -36,11 +38,29 @@ public class SettingItem {
     }
 
     public JPanel drawSelf() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                if (type != SPACE) return;
+
+                Graphics2D g2 = (Graphics2D) g;
+
+                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setRenderingHints(rh);
+
+                RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(3, 45, settingsTitle.length()*9, 3, 3, 3);
+
+                g2.setColor(Variables.highlightColor);
+                g2.fill(roundedRectangle);
+
+            }
+        };
 
         if (type == SPACE) {
             panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            panel.setBorder(new EmptyBorder(6, 0, 6, 0));
+            panel.setBorder(new EmptyBorder(20, 0, 10, 0));
             JLabel title = new JLabel(settingsTitle);
             title.setFont(new Font(title.getFont().getName(), Font.BOLD, 15));
             panel.add(title);
@@ -48,6 +68,7 @@ public class SettingItem {
         }
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setBorder(new EmptyBorder(0, 4, 0, 4));
 
         panel.add(new JLabel(settingsTitle));
         panel.add(Box.createHorizontalGlue());

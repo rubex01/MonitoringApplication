@@ -42,6 +42,8 @@ public class Variables {
 
     public final static Color defaultButtonColor = new Color(37, 39, 53);
 
+    public final static Color highlightColor = new Color(110, 134, 219, 100);
+
     public static Image getImage(String type) {
         try {
             Image image = ImageIO.read(Variables.class.getResource(type + ".png"));

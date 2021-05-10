@@ -4,6 +4,7 @@ import Assets.Variables;
 import Functionality.Blueprint.Blueprint;
 import Functionality.BlueprintSaves.SaveController;
 import Functionality.Settings.SettingsDialog;
+import Functionality.Algorithm.AlgorithmDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -131,8 +132,7 @@ public class NavigationBar extends JMenuBar implements ActionListener {
             }
         }
         else if (e.getSource() == jmbOptimalisation) {
-            // TODO: Open dialog etc..
-            System.out.println("todo");
+            new AlgorithmDialog();
         }
         else if (e.getSource() == jmbSettings) {
             new SettingsDialog();
