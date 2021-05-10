@@ -39,11 +39,6 @@ public class Server implements Serializable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "name: " + name + " type: " + type + " price: " + price;
-    }
-
     public String getName() {
         return name;
     }
@@ -66,5 +61,10 @@ public class Server implements Serializable {
 
     public String getTypeName() {
         return typeName;
+    }
+
+    @Override
+    public String toString() {
+        return "[name: " + name + ", price: " + price + ", type: " + getTypeName() + ", uptime: " + uptime + "]";
     }
 }

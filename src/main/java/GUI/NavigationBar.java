@@ -4,7 +4,7 @@ import Assets.Variables;
 import Functionality.Blueprint.Blueprint;
 import Functionality.BlueprintSaves.SaveController;
 import Functionality.Settings.SettingsDialog;
-import Functionality.Algorithm.Calculation;
+import Functionality.Algorithm.AlgorithmDialog;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 public class NavigationBar extends JMenuBar implements ActionListener {
 
-    private JMenuItem jmNew, jmSave, jmOpen, jmSaveOnline, jmOpenOnline, jmAlgorithm;
+    private JMenuItem jmNew, jmSave, jmOpen, jmSaveOnline, jmOpenOnline;
 
     private JMenu jmbMenu;
 
@@ -87,15 +87,12 @@ public class NavigationBar extends JMenuBar implements ActionListener {
         jmSaveOnline.addActionListener(this);
         jmOpenOnline = new JMenuItem("Online openen", new ImageIcon(Variables.getImage("open_online")));
         jmOpenOnline.addActionListener(this);
-        jmAlgorithm = new JMenuItem("Algoritme", new ImageIcon(Variables.getImage("open_online")));
-        jmAlgorithm.addActionListener(this);
 
         jmbMenu.add(jmNew);
         jmbMenu.add(jmSave);
         jmbMenu.add(jmOpen);
         jmbMenu.add(jmSaveOnline);
         jmbMenu.add(jmOpenOnline);
-        jmbMenu.add(jmAlgorithm);
 
         add(jmbMenu);
         add(jmbOptimalisation);
@@ -135,14 +132,10 @@ public class NavigationBar extends JMenuBar implements ActionListener {
             }
         }
         else if (e.getSource() == jmbOptimalisation) {
-            // TODO: Open dialog etc..
-            System.out.println("todo");
+            new AlgorithmDialog();
         }
         else if (e.getSource() == jmbSettings) {
             new SettingsDialog();
-        }
-        else if (e.getSource() == jmAlgorithm)  {
-            new Calculation();
         }
     }
 }
