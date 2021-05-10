@@ -39,7 +39,7 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
         this.parent = parent;
         setBackground(Variables.backgroundLighter);
         setLayout(new BorderLayout());
-        animationTimer = new Timer(1, this);
+        animationTimer = new Timer(10, this);
         drawPanels();
     }
 
@@ -134,8 +134,9 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
 
     private void downAnimation() {
         setBorder(new EmptyBorder(0, 0, animationOffset, 0));
-        animationOffset--;
-        if (animationOffset == -131) {
+        animationOffset = animationOffset - 5;
+        if (animationOffset <= -131) {
+            animationOffset = -131;
             animationTimer.stop();
             setBorder(new EmptyBorder(0, 0, 0, 0));
             setVisibility(false);
@@ -154,8 +155,9 @@ public class ServerListPanel extends JPanel implements ActionListener, Serializa
     private void upAnimation() {
         setVisibility(true);
         setBorder(new EmptyBorder(0, 0, animationOffset, 0));
-        animationOffset++;
-        if (animationOffset == 0) {
+        animationOffset = animationOffset + 5;
+        if (animationOffset >= 0) {
+            animationOffset = 0;
             animationTimer.stop();
             setBorder(new EmptyBorder(0, 0, 0, 0));
             toggleButton.setIcon(new ImageIcon(Variables.getImage("arrow_down")));

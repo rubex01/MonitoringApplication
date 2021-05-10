@@ -1,6 +1,7 @@
 package Functionality.Monitoring.QuickStatusPanel;
 
 import Assets.Variables;
+import GUI.Frame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -113,6 +114,7 @@ public class QuickStatusPanel extends JPanel {
     }
 
     public void updateTrigger(int newValue) {
+        if (type == OUTAGES && newValue > status) Frame.defaultFrame.toFront();
         decideTextBasedOnTime(newValue);
         infoLabel.setText(String.valueOf(status));
         infoLabelAddon.setText(info);

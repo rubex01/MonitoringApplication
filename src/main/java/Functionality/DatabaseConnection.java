@@ -1,5 +1,6 @@
 package Functionality;
 
+import Assets.OkDialog;
 import Functionality.Settings.SettingsController;
 
 import java.sql.Connection;
@@ -22,6 +23,7 @@ public class DatabaseConnection {
             return dbConnection;
         }
         catch (Exception exception) {
+            new OkDialog("Er ging iets fout", "Er kon geen verbinding worden gemaakt met de database, kijk of de instellingen goed staan.", "Oke", OkDialog.ERROR);
             exception.printStackTrace();
             return null;
         }
