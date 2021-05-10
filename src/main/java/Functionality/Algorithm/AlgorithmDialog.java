@@ -100,12 +100,13 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (JTuptime.getText().charAt(0) == '0') JTuptime.setText("");
         if (JTuptime.getText().length() > 2) {
-            if (JTuptime.getText().charAt(3) != '.' && JTuptime.getText().charAt(3) != ',') {
+            if (JTuptime.getText().charAt(2) != '.' && JTuptime.getText().charAt(2) != ',') {
                 JTuptime.setText(JTuptime.getText().substring(0, 2) + "." + JTuptime.getText().substring(3));
             }
         }
-        if (SettingsController.getSetting("algorithm_allowlong").equals("false") && JTuptime.getText().length() > 5) {
+        if (SettingsController.getSetting("algorithm_allowlong").equals("no") && JTuptime.getText().length() > 5) {
             JTuptime.setText(JTuptime.getText().substring(0, 5));
         }
     }

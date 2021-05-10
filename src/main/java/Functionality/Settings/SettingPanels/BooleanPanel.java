@@ -36,19 +36,19 @@ public class BooleanPanel extends SettingPanel implements ActionListener {
 
     @Override
     public void reconsiderValueDisplay() {
-        jbToggle.setIcon((value.equals("false") ? toggleOff : toggleOn));
+        jbToggle.setIcon((value.equals("no") ? toggleOff : toggleOn));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jbToggle) {
-            if (value.equals("false")) {
-                parent.setNewValue("true");
-                value = "true";
+            if (value.equals("no")) {
+                parent.setNewValue("yes");
+                value = "yes";
             }
             else {
-                parent.setNewValue("false");
-                value = "false";
+                parent.setNewValue("no");
+                value = "no";
             }
             reconsiderValueDisplay();
             checkResetVisibility();
