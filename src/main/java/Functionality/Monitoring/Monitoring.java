@@ -29,6 +29,8 @@ public class Monitoring extends TabModel implements Serializable {
 
     public void startUpdateCycle(ArrayList<ServerResult> serverResults, ArrayList<PoolResult> poolResults) {
         monitoringPanel.statusUpdateHandler(serverResults, poolResults);
+        monitoringPanel.revalidate();
+        monitoringPanel.repaint();
     }
 
     @Override
