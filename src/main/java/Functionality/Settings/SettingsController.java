@@ -1,8 +1,7 @@
 package Functionality.Settings;
 
-import GUI.Frame;
+import Assets.OkDialog;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -109,7 +108,7 @@ public class SettingsController {
     }
 
     private static void restartDialog() {
-        JOptionPane.showMessageDialog(Frame.defaultFrame, "De applicatie moet worden herstart om de gewijzigde instellingen in gebruik te nemen.");
+        new OkDialog("Actie vereist", "De applicatie moet worden herstart om de gewijzigde instellingen in gebruik te nemen.", "Oke", OkDialog.WARNING);
         showRestartOption = false;
     }
 

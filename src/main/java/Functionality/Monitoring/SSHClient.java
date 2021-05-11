@@ -1,5 +1,6 @@
 package Functionality.Monitoring;
 
+import Assets.OkDialog;
 import Functionality.Settings.SettingsController;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -20,7 +21,9 @@ public class SSHClient {
             sshSession.setPassword(password);
             sshSession.setConfig(config);
             sshSession.connect();
-        }catch(Exception e){
+        }
+        catch (Exception e) {
+            new OkDialog("Er ging iets fout", "Er kon geen verbinding worden gemaakt met de API, kijk of de instellingen goed staan.", "Oke", OkDialog.ERROR);
             e.printStackTrace();
         }
     }

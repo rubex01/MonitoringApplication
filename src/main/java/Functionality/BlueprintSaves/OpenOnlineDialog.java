@@ -129,6 +129,6 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
             for (String blueprint : allBlueprints) blueprints.addElement(blueprint);
             return;
         }
-        for (String blueprint : allBlueprints) if (blueprint.contains(jtfSearch.getText())) blueprints.addElement(blueprint);
+        for (String blueprint : allBlueprints) if (blueprint.toLowerCase().contains(jtfSearch.getText().toLowerCase())) blueprints.addElement(blueprint);
     }
 }

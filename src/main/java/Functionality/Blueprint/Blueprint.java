@@ -2,6 +2,7 @@ package Functionality.Blueprint;
 
 import Assets.DefaultScrollPane;
 import Assets.Variables;
+import Assets.YesNoDialog;
 import Functionality.BlueprintSaves.SaveController;
 import Functionality.Server;
 import Functionality.ServerParser;
@@ -156,9 +157,8 @@ public class Blueprint extends TabModel implements Serializable {
     @Override
     public boolean closeCheck() {
         if (savedState != currentState) {
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(panel, "Wilt u de wijzigingen in \"" + getFileTitle() + "\" opslaan?","Let op", dialogButton);
-            if(dialogResult == JOptionPane.YES_OPTION){
+            YesNoDialog saveDialog = new YesNoDialog("Let op", "Wilt u de wijzigingen in \"" + getFileTitle() + "\" opslaan?");
+            if(saveDialog.getCloseMethod() == YesNoDialog.YES_OPTION){
                 if (onlineSaved == false) {
                     boolean saveResult = SaveController.saveBlueprint(this);
                     return saveResult;
@@ -166,7 +166,7 @@ public class Blueprint extends TabModel implements Serializable {
                 boolean saveResult = SaveController.saveBlueprintOnline(this);
                 return saveResult;
             }
-            else if (dialogResult == JOptionPane.CLOSED_OPTION) {
+            else if (saveDialog.getCloseMethod() == YesNoDialog.CLOSED_OPTION) {
                 return false;
             }
         }
