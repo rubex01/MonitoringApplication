@@ -45,7 +45,7 @@ public class YesNoDialog extends JDialog implements ActionListener {
         infoPanel.setBorder(new EmptyBorder(20, 20, 5, 20));
 
         JLabel messageLabel = new JLabel(this.message);
-        messageLabel.setIcon(new ImageIcon("question_popup"));
+        messageLabel.setIcon(new ImageIcon(Variables.getImage("questionmark_popup")));
         infoPanel.add(messageLabel);
 
         JPanel buttonPanel = new JPanel();
