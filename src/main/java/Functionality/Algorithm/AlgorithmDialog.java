@@ -67,16 +67,16 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
                 input = input.replace(",", "");
                 input = input.replace(".", "");
                 input = "0." + input;
-                double numberInput = Double.parseDouble(input);
+                double uptimeInput = Double.parseDouble(input);
 
-                Algorithm calculate = new Algorithm(servers, numberInput, this);
+                Algorithm calculate = new Algorithm(servers, uptimeInput);
                 Blueprint optimalBlueprint = new Blueprint("Optimaal ontwerp");
 
                 Frame.defaultFrame.getTabsBar().addTab(optimalBlueprint);
                 Frame.defaultFrame.getTabsBar().changeFocus(optimalBlueprint);
 
                 ArrayList<Server> optimalSolutionList = new ArrayList<>();
-                for (Server server : calculate.getBestSolution().getAllServers()) if (server != null) optimalSolutionList.add(server);
+                for (Server server : calculate.getBestSolution().getAllServers()) optimalSolutionList.add(server);
 
                 optimalBlueprint.addBulk(optimalSolutionList);
             }
