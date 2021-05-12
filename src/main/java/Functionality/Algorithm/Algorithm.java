@@ -57,7 +57,7 @@ public class Algorithm {
     private void calculateSkippingMargins() {
         int uptimeLength = String.valueOf(wantedUptime).length()-2;
         String skipThresholdStr = "0.";
-        for (int i=2;i<uptimeLength;i++) skipThresholdStr += "0";
+        for (int i=1;i<uptimeLength;i++) skipThresholdStr += "0";
         skipThresholdStr += "1";
         skipThreshold = Double.parseDouble(skipThresholdStr);
 
