@@ -22,16 +22,24 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
 
     private DefaultButton okButton;
 
+    private ArrayList<Server> servers;
+
     public AlgorithmDialog() {
         super(Frame.defaultFrame, true);
 
-        setTitle("Bereken optimale samenstelling");
+        this.servers = ServerParser.parseServers();
+
+        resetTitle();
         setSize(300, 150);
         setLayout(new FlowLayout());
         drawItems();
         setLocationRelativeTo(Frame.defaultFrame);
 
         setVisible(true);
+    }
+
+    private void resetTitle() {
+        setTitle("Bereken optimale samenstelling");
     }
 
     private void drawItems() {
@@ -55,28 +63,30 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
         add(cancelButton);
     }
 
+    private double parseInput() {
+        String input = JTuptime.getText();
+        input = input.replace(",", "");
+        input = input.replace(".", "");
+        input = "0." + input;
+        return Double.parseDouble(input);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
             try {
                 setTitle("Berekenen...");
 
-                ArrayList<Server> servers = ServerParser.parseServers();
+                double uptimeInput = parseInput();
 
-                String input = JTuptime.getText();
-                input = input.replace(",", "");
-                input = input.replace(".", "");
-                input = "0." + input;
-                double numberInput = Double.parseDouble(input);
-
-                Algorithm calculate = new Algorithm(servers, numberInput, this);
+                Algorithm calculate = new Algorithm(servers, uptimeInput);
                 Blueprint optimalBlueprint = new Blueprint("Optimaal ontwerp");
 
                 Frame.defaultFrame.getTabsBar().addTab(optimalBlueprint);
                 Frame.defaultFrame.getTabsBar().changeFocus(optimalBlueprint);
 
                 ArrayList<Server> optimalSolutionList = new ArrayList<>();
-                for (Server server : calculate.getBestSolution().getAllServers()) if (server != null) optimalSolutionList.add(server);
+                for (Server server : calculate.getBestSolution().getAllServers()) optimalSolutionList.add(server);
 
                 optimalBlueprint.addBulk(optimalSolutionList);
             }
@@ -100,11 +110,17 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
 
     @Override
     public void keyReleased(KeyEvent e) {
+        resetTitle();
         if (JTuptime.getText().charAt(0) == '0') JTuptime.setText("");
         if (JTuptime.getText().length() > 2) {
             if (JTuptime.getText().charAt(2) != '.' && JTuptime.getText().charAt(2) != ',') {
                 JTuptime.setText(JTuptime.getText().substring(0, 2) + "." + JTuptime.getText().substring(3));
             }
+        }
+        else if (SettingsController.getSetting("algorithm_autooptimalisation").equals("yes")) {
+            double inputUptime = parseInput();
+            Algorithm quickCalculate = new Algorithm(servers, inputUptime);
+            setTitle(quickCalculate.getBestSolution().getAllServers().size() + " servers, €" + quickCalculate.getBestSolution().getPrice());
         }
         if (SettingsController.getSetting("algorithm_allowlong").equals("no") && JTuptime.getText().length() > 5) {
             JTuptime.setText(JTuptime.getText().substring(0, 5));
