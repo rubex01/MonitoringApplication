@@ -15,8 +15,6 @@ public class Algorithm {
 
     private ServerConfiguration currentBestSolution;
 
-    private Server[] lowestUptimeServers;
-
     private int maxOptimalOverlayDebt;
 
     private final static double doubleThreshold = 0.000001;
@@ -29,10 +27,8 @@ public class Algorithm {
         this.webservers = new ArrayList<>();
         this.firewalls = new ArrayList<>();
         this.serverBlocks = new ArrayList<>();
-        this.lowestUptimeServers = new Server[3];
 
         for (Server server : servers) {
-            if (lowestUptimeServers[server.getType()] == null || lowestUptimeServers[server.getType()].getUptime() > server.getUptime()) lowestUptimeServers[server.getType()] = server;
             switch (server.getType()) {
                 case Server.DATABASE:
                     databases.add(server);
@@ -114,8 +110,8 @@ public class Algorithm {
 
         if (
                 (currentBestSolution != null && configInfo[0] > currentBestSolution.getPrice()) ||
-                        (oldConfig != null && configInfo[1]/configInfo[0] > oldConfig[1]/oldConfig[0]) ||
-                        (oldConfig != null && (configInfo[1] - oldConfig[1]) < doubleThreshold)
+                (oldConfig != null && configInfo[1]/configInfo[0] > oldConfig[1]/oldConfig[0]) ||
+                (oldConfig != null && (configInfo[1] - oldConfig[1]) < doubleThreshold)
         ) return;
 
         if (configInfo[1] >= wantedUptime) {
@@ -124,11 +120,11 @@ public class Algorithm {
                 return;
             }
             else if (
-                    (configInfo[0] < currentBestSolution.getPrice()) ||
-                            (configInfo[0] == currentBestSolution.getPrice() && (
-                                    runningConfigurations.size() < currentBestSolution.getServerCount()) ||
-                                    configInfo[1] > currentBestSolution.getUptime()
-                            )
+                (configInfo[0] < currentBestSolution.getPrice()) ||
+                (configInfo[0] == currentBestSolution.getPrice() && (
+                    runningConfigurations.size() < currentBestSolution.getServerCount()) ||
+                    configInfo[1] > currentBestSolution.getUptime()
+                )
             ) {
                 currentBestSolution = new ServerConfiguration(runningConfigurations, configInfo[0], configInfo[1]);
                 return;

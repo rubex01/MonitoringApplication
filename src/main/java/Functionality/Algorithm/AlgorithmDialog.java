@@ -122,7 +122,7 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
             setTitle(quickCalculate.getCurrentBestSolution().getServers().size() + " servers, €" + quickCalculate.getCurrentBestSolution().getPrice());
         }
         else if (SettingsController.getSetting("algorithm_allowlong").equals("no")) {
-            JTuptime.setText(JTuptime.getText().substring(0, 5));
+            JTuptime.setText(JTuptime.getText().substring(0, 7));
         }
     }
 }
