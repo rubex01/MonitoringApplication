@@ -51,7 +51,6 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingItems.add(new SettingItem("check_interval", "Checking interval", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("", "Optimalisatie", SettingItem.SPACE));
         settingItems.add(new SettingItem("algorithm_allowlong", "Lange invoer toestaan", SettingItem.BOOLEAN, false));
-        settingItems.add(new SettingItem("algorithm_autooptimalisation", "Sneller algoritme gebruiken (Soms minder accuraat)", SettingItem.BOOLEAN, false));
         // Add setting items here
     }
 

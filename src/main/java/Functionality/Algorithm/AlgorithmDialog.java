@@ -1,6 +1,7 @@
 package Functionality.Algorithm;
 
 import Assets.DefaultButton;
+import Functionality.Algorithm.Algorithm.Algorithm;
 import Functionality.Blueprint.Blueprint;
 import Functionality.Server;
 import Functionality.ServerParser;
@@ -80,15 +81,13 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
                 double uptimeInput = parseInput();
 
                 Algorithm calculate = new Algorithm(servers, uptimeInput);
+
                 Blueprint optimalBlueprint = new Blueprint("Optimaal ontwerp");
 
                 Frame.defaultFrame.getTabsBar().addTab(optimalBlueprint);
                 Frame.defaultFrame.getTabsBar().changeFocus(optimalBlueprint);
 
-                ArrayList<Server> optimalSolutionList = new ArrayList<>();
-                for (Server server : calculate.getBestSolution().getAllServers()) optimalSolutionList.add(server);
-
-                optimalBlueprint.addBulk(optimalSolutionList);
+                optimalBlueprint.addBulk(calculate.getCurrentBestSolution().getServers());
             }
             catch (Exception exception) {
                 exception.printStackTrace();
@@ -114,15 +113,15 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
         if (JTuptime.getText().charAt(0) == '0') JTuptime.setText("");
         if (JTuptime.getText().length() > 2) {
             if (JTuptime.getText().charAt(2) != '.' && JTuptime.getText().charAt(2) != ',') {
-                JTuptime.setText(JTuptime.getText().substring(0, 2) + "." + JTuptime.getText().substring(3));
+                JTuptime.setText(JTuptime.getText().substring(0, 2) + "." + JTuptime.getText().substring(2));
             }
         }
-        else if (SettingsController.getSetting("algorithm_autooptimalisation").equals("yes")) {
+        if (JTuptime.getText().length() <= 5) {
             double inputUptime = parseInput();
             Algorithm quickCalculate = new Algorithm(servers, inputUptime);
-            setTitle(quickCalculate.getBestSolution().getAllServers().size() + " servers, €" + quickCalculate.getBestSolution().getPrice());
+            setTitle(quickCalculate.getCurrentBestSolution().getServers().size() + " servers, €" + quickCalculate.getCurrentBestSolution().getPrice());
         }
-        if (SettingsController.getSetting("algorithm_allowlong").equals("no") && JTuptime.getText().length() > 5) {
+        else if (SettingsController.getSetting("algorithm_allowlong").equals("no")) {
             JTuptime.setText(JTuptime.getText().substring(0, 5));
         }
     }
