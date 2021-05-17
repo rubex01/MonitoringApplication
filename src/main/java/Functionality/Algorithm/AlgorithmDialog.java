@@ -2,6 +2,7 @@ package Functionality.Algorithm;
 
 import Assets.DefaultButton;
 import Functionality.Algorithm.Algorithm.Algorithm;
+import Functionality.Algorithm.Algorithm.ServerConfiguration;
 import Functionality.Blueprint.Blueprint;
 import Functionality.Server;
 import Functionality.ServerParser;
@@ -24,6 +25,8 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
     private DefaultButton okButton;
 
     private ArrayList<Server> servers;
+
+    private ServerConfiguration lastCalculatedQuickSolution;
 
     public AlgorithmDialog() {
         super(Frame.defaultFrame, true);
@@ -80,14 +83,16 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
 
                 double uptimeInput = parseInput();
 
-                Algorithm calculate = new Algorithm(servers, uptimeInput);
+                ServerConfiguration optimalSolution = (lastCalculatedQuickSolution == null)
+                        ? new Algorithm(servers, uptimeInput).getCurrentBestSolution()
+                        : lastCalculatedQuickSolution;
 
                 Blueprint optimalBlueprint = new Blueprint("Optimaal ontwerp");
 
                 Frame.defaultFrame.getTabsBar().addTab(optimalBlueprint);
                 Frame.defaultFrame.getTabsBar().changeFocus(optimalBlueprint);
 
-                optimalBlueprint.addBulk(calculate.getCurrentBestSolution().getServers());
+                optimalBlueprint.addBulk(optimalSolution.getServers());
             }
             catch (Exception exception) {
                 exception.printStackTrace();
@@ -119,10 +124,14 @@ public class AlgorithmDialog extends JDialog implements ActionListener, KeyListe
         if (JTuptime.getText().length() <= 5) {
             double inputUptime = parseInput();
             Algorithm quickCalculate = new Algorithm(servers, inputUptime);
-            setTitle(quickCalculate.getCurrentBestSolution().getServers().size() + " servers, €" + quickCalculate.getCurrentBestSolution().getPrice());
+            lastCalculatedQuickSolution = quickCalculate.getCurrentBestSolution();
+            setTitle(lastCalculatedQuickSolution.getServers().length + " servers, €" + lastCalculatedQuickSolution.getPrice());
         }
         else if (SettingsController.getSetting("algorithm_allowlong").equals("no")) {
             JTuptime.setText(JTuptime.getText().substring(0, 7));
+        }
+        else {
+            lastCalculatedQuickSolution = null;
         }
     }
 }

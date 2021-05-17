@@ -91,7 +91,7 @@ public class Blueprint extends TabModel implements Serializable {
         return savePath;
     }
 
-    public void addBulk(ArrayList<Server> serverList) {
+    public void addBulk(Server[] serverList) {
         for (Server server : serverList) selectedServers.add(server);
         serverVisualizerPanel.drawServers();
         calculatePriceAndUptime();
