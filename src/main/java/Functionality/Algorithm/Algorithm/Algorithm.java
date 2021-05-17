@@ -15,10 +15,6 @@ public class Algorithm {
 
     private ServerConfiguration currentBestSolution;
 
-    private int maxOptimalOverlayDepth;
-
-    private final static double doubleThreshold = 0.000001;
-
     private final static int overhead = 2;
 
     public Algorithm(ArrayList<Server> servers, double wantedUptime) {
@@ -42,12 +38,8 @@ public class Algorithm {
             }
         }
 
-        if (databases.size() > webservers.size() && databases.size() > firewalls.size()) maxOptimalOverlayDepth = databases.size()-1;
-        else if (webservers.size() > firewalls.size()) maxOptimalOverlayDepth = webservers.size()-1;
-        else maxOptimalOverlayDepth = firewalls.size()-1;
-
         generateBlocks();
-        calculate(new Server[0], 0, null);
+        calculate();
     }
 
     private void generateBlocks() {
@@ -101,43 +93,31 @@ public class Algorithm {
         return newBlock;
     }
 
-    private void calculate(Server[] runningConfigurations, int depth, double[] oldConfig) {
-        double[] configInfo = calculateInfo(runningConfigurations);
+    private void calculate() {
+        for (Server[] firstBlock : serverBlocks) {
+            parent : for (Server[] secondBlock : serverBlocks) {
+                for (Server server : firstBlock) {
+                    for (Server compareServer : secondBlock) if (server == compareServer) continue parent;
+                }
 
-        if (
-                (currentBestSolution != null && configInfo[0] > currentBestSolution.getPrice()) ||
-                (oldConfig != null && configInfo[1]/configInfo[0] > oldConfig[1]/oldConfig[0]) ||
-                (oldConfig != null && (configInfo[1] - oldConfig[1]) < doubleThreshold)
-        ) return;
+                Server[] config = new Server[firstBlock.length + secondBlock.length];
+                for (int i=0;i< firstBlock.length;i++) config[i] = firstBlock[i];
+                for (int i=firstBlock.length;i<config.length;i++) config[i] = secondBlock[i- firstBlock.length];
 
-        if (configInfo[1] >= wantedUptime) {
-            if (currentBestSolution == null) {
-                currentBestSolution = new ServerConfiguration(runningConfigurations, configInfo[0], configInfo[1]);
-                return;
+                double[] configInfo = calculateInfo(config);
+
+                if (configInfo[1] >= wantedUptime) {
+                    if (currentBestSolution == null) {
+                        currentBestSolution = new ServerConfiguration(config, configInfo[0], configInfo[1]);
+                    }
+                    else if (
+                        (configInfo[0] < currentBestSolution.getPrice()) ||
+                        (configInfo[0] == currentBestSolution.getPrice() && (configInfo[1] > currentBestSolution.getUptime() || config.length < currentBestSolution.getServerCount()))
+                    ) {
+                        currentBestSolution = new ServerConfiguration(config, configInfo[0], configInfo[1]);
+                    }
+                }
             }
-            else if (
-                (configInfo[0] < currentBestSolution.getPrice()) ||
-                (configInfo[0] == currentBestSolution.getPrice() && (
-                    runningConfigurations.length < currentBestSolution.getServerCount()) ||
-                    configInfo[1] > currentBestSolution.getUptime()
-                )
-            ) {
-                currentBestSolution = new ServerConfiguration(runningConfigurations, configInfo[0], configInfo[1]);
-                return;
-            }
-            return;
-        }
-
-        if (depth > maxOptimalOverlayDepth) return;
-
-        parent: for (Server[] serverBlock : serverBlocks) {
-            for (Server server : runningConfigurations) {
-                for (Server compareServer : serverBlock) if (server == compareServer) continue parent;
-            }
-            Server[] newConfiguration = new Server[runningConfigurations.length+serverBlock.length];
-            for (int i=0;i<runningConfigurations.length;i++) newConfiguration[i] = runningConfigurations[i];
-            for (int i=runningConfigurations.length;i<newConfiguration.length;i++) newConfiguration[i] = serverBlock[i- runningConfigurations.length];
-            calculate(newConfiguration, depth+1, configInfo);
         }
     }
 
