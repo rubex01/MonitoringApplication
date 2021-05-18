@@ -64,6 +64,10 @@ public class Server implements Serializable {
         return typeName;
     }
 
+    public double getCalculateUptime() {
+        return uptime/100;
+    }
+
     @Override
     public String toString() {
         return "[name: " + name + ", price: " + price + ", type: " + getTypeName() + ", uptime: " + uptime + "]";
