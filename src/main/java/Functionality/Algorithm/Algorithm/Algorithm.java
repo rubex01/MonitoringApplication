@@ -15,7 +15,7 @@ public class Algorithm {
 
     private ServerConfiguration currentBestSolution;
 
-    private final static double doubleThreshold = 0.000001;
+    private final static double doubleThreshold = 0.00000000001;
 
     private int overhead = 2;
 
