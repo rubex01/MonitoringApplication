@@ -47,7 +47,7 @@ public class Algorithm {
         else maxLayers = databases.size();
 
         generateBlocks();
-        calculate(new Server[0], 0, 0, null);
+        calculate(new Server[0], new Server[0], 0, 0, null);
     }
 
     private void generateBlocks() {
@@ -88,9 +88,11 @@ public class Algorithm {
     }
 
     private Server[] createBlock(Server[] serverList, int[] countList, int totalSize) {
-        Server[] newBlock = new Server[totalSize];
+        Server[] newBlock = new Server[totalSize+3];
 
-        int count = 0;
+        for (int i=0;i<3;i++) newBlock[i] = (countList[i] > 0) ? serverList[i] : null;
+
+        int count = 3;
         for (int i=0;i<serverList.length;i++) {
             if (countList[i] == 0) continue;
             for (int x=0;x<countList[i];x++) {
@@ -101,7 +103,7 @@ public class Algorithm {
         return newBlock;
     }
 
-    private void calculate(Server[] runningConfigurations, int depth, int index, double[] oldConfig) {
+    private void calculate(Server[] runningConfigurations, Server[] includedServers, int depth, int index, double[] oldConfig) {
         double[] configInfo = calculateInfo(runningConfigurations);
 
         if (
@@ -116,8 +118,8 @@ public class Algorithm {
                 return;
             }
             else if (
-                    (configInfo[0] < currentBestSolution.getPrice()) ||
-                            (configInfo[0] == currentBestSolution.getPrice() && (configInfo[1] > currentBestSolution.getUptime() || runningConfigurations.length < currentBestSolution.getServerCount()))
+                (configInfo[0] < currentBestSolution.getPrice()) ||
+                (configInfo[0] == currentBestSolution.getPrice() && (configInfo[1] > currentBestSolution.getUptime() || runningConfigurations.length < currentBestSolution.getServerCount()))
             ) {
                 currentBestSolution = new ServerConfiguration(runningConfigurations, configInfo[0], configInfo[1]);
                 return;
@@ -128,13 +130,25 @@ public class Algorithm {
         if (depth == maxLayers) return;
 
         parent: for (int svIndex=index;svIndex<serverBlocks.size();svIndex++) {
-            if (depth != 0) for (Server compareServer : serverBlocks.get(svIndex)) {
-                for (Server server : runningConfigurations) if (server == compareServer) continue parent;
+            for (Server server : includedServers) {
+                if (
+                        (serverBlocks.get(svIndex)[0] != null && serverBlocks.get(svIndex)[0] == server) ||
+                        (serverBlocks.get(svIndex)[1] != null && serverBlocks.get(svIndex)[1] == server) ||
+                        (serverBlocks.get(svIndex)[2] != null && serverBlocks.get(svIndex)[2] == server)
+                ) {
+                    continue parent;
+                }
             }
-            Server[] newConfiguration = new Server[runningConfigurations.length+serverBlocks.get(svIndex).length];
+
+            Server[] newConfiguration = new Server[runningConfigurations.length+serverBlocks.get(svIndex).length-3];
             for (int i=0;i<runningConfigurations.length;i++) newConfiguration[i] = runningConfigurations[i];
-            for (int i=runningConfigurations.length;i<newConfiguration.length;i++) newConfiguration[i] = serverBlocks.get(svIndex)[i- runningConfigurations.length];
-            calculate(newConfiguration, depth+1, svIndex+1, configInfo);
+            for (int i=runningConfigurations.length;i<newConfiguration.length;i++) newConfiguration[i] = serverBlocks.get(svIndex)[i- runningConfigurations.length+3];
+
+            Server[] included = new Server[includedServers.length+3];
+            for (int i=0;i<included.length-3;i++) included[i] = includedServers[i];
+            for (int i=0;i<3;i++) included[includedServers.length+i] = serverBlocks.get(svIndex)[i];
+
+            calculate(newConfiguration, included, depth+1, svIndex+1, configInfo);
         }
     }
 
