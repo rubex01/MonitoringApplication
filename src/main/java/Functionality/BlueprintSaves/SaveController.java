@@ -108,6 +108,11 @@ public class SaveController {
             if (!dialog.getOkPressed()) return false;
             String filename = dialog.getFileName();
 
+            if (dialog.hasToOverwrite()){
+                YesNoDialog overwrite = new YesNoDialog("Overschrijven bestand", "Dit bestand bestaat al, wilt u het overschrijven?");
+                if(overwrite.getCloseMethod() != YesNoDialog.YES_OPTION) return false;
+            }
+
             blueprint.setTitle(filename);
             blueprint.setOnlineSaved(true);
             blueprint.saved();
