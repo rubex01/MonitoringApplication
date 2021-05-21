@@ -1,5 +1,6 @@
 package Functionality.BlueprintSaves;
 
+import Assets.YesNoDialog;
 import Functionality.Blueprint.Blueprint;
 import Functionality.DatabaseConnection;
 import GUI.Frame;
@@ -21,6 +22,13 @@ public class SaveController {
             int values = j.showSaveDialog(Frame.defaultFrame);
 
             if (j.getSelectedFile() == null || values == JFileChooser.CANCEL_OPTION) return false;
+
+            if (j.getSelectedFile().exists()){
+                YesNoDialog overwrite = new YesNoDialog("Overschrijven bestand", "Dit bestand bestaat al, wilt u het overschrijven?");
+                if(overwrite.getCloseMethod() != YesNoDialog.YES_OPTION) {
+                    return false;
+                }
+            }
 
             String outputFilePath = j.getSelectedFile().getPath();
             String outputFileName = j.getSelectedFile().getName();
@@ -99,6 +107,11 @@ public class SaveController {
             SaveOnlineDialog dialog = new SaveOnlineDialog(blueprint.getFileTitle());
             if (!dialog.getOkPressed()) return false;
             String filename = dialog.getFileName();
+
+            if (dialog.hasToOverwrite()){
+                YesNoDialog overwrite = new YesNoDialog("Overschrijven bestand", "Dit bestand bestaat al, wilt u het overschrijven?");
+                if(overwrite.getCloseMethod() != YesNoDialog.YES_OPTION) return false;
+            }
 
             blueprint.setTitle(filename);
             blueprint.setOnlineSaved(true);
