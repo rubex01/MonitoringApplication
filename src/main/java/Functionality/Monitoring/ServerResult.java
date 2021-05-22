@@ -43,6 +43,10 @@ public class ServerResult implements Serializable, MouseListener {
         this.linkedDialogs = new ArrayList<>();
     }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
     public int getUptime() {
         return uptime;
     }
@@ -108,6 +112,13 @@ public class ServerResult implements Serializable, MouseListener {
 
     public void removeLinkedDialog(ExtraServerInfoDialog dialog) {
         linkedDialogs.remove(dialog);
+    }
+
+    public void removeAllDialogs() {
+        for (ExtraServerInfoDialog dialog : linkedDialogs) {
+            dialog.setVisible(false);
+        }
+        linkedDialogs.clear();
     }
 
     public JPanel paintSelf() {
@@ -225,9 +236,14 @@ public class ServerResult implements Serializable, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == panel && type != Server.FIREWALL) {
-            linkedDialogs.add(new ExtraServerInfoDialog(this));
+        if (type != Server.FIREWALL) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                ServerResultContextMenu menu = new ServerResultContextMenu(this);
+                menu.show(e.getComponent(), e.getX(), e.getY());
+            }
+            else linkedDialogs.add(new ExtraServerInfoDialog(this));
         }
+
     }
 
     @Override
