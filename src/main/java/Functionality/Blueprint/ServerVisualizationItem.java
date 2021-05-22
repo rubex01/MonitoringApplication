@@ -59,8 +59,8 @@ public class ServerVisualizationItem extends JPanel implements Serializable, Act
         }
 
         if (
-                (collection.getServer().getType() == Server.FIREWALL && foundWeb == true) ||
-                (collection.getServer().getType() == Server.WEBSERVER && foundDB == true)
+                (collection.getServer().getType() == Server.FIREWALL && foundWeb) ||
+                (collection.getServer().getType() == Server.WEBSERVER && foundDB)
         ) {
             int circleSize = 6;
             int circleY = (getHeight()/2+(circleSize/2));

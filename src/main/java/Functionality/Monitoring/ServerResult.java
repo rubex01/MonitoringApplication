@@ -140,9 +140,9 @@ public class ServerResult implements Serializable, MouseListener {
                 RoundRectangle2D background = new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 15, 15);
                 graphics2.fill(background);
 
-                int offsetLeft = 255;
                 int offsetTop = 10;
                 int size = 40;
+                int offsetLeft = getWidth()-10-size;
 
                 if (type == Server.FIREWALL) return;
                 int degree = (int) (getCpuUsage()*1000/360);
