@@ -3,13 +3,12 @@ package GUI;
 import Assets.Variables;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.Serializable;
 
-public class TabButton extends JPanel implements MouseListener, Serializable {
+public class TabButton extends JPanel implements MouseListener, Serializable, ActionListener {
 
     private TabModel child;
 
@@ -17,8 +16,14 @@ public class TabButton extends JPanel implements MouseListener, Serializable {
 
     private JLabel title;
 
+    private Timer animationTimer;
+
+    private int animationCount;
+
     public TabButton(TabModel child) {
         this.child = child;
+        this.animationTimer = new Timer(35, this);
+
         addMouseListener(this);
         setBackground(Variables.nonFocus);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -48,14 +53,24 @@ public class TabButton extends JPanel implements MouseListener, Serializable {
         }
     }
 
+    public void unfocus() {
+        setBackground(Variables.nonFocus);
+        animationCount = 0;
+        animationTimer.start();
+    }
+
+    public void focus() {
+        setBackground(Variables.focus);
+        animationCount = -3;
+        animationTimer.start();
+    }
+
     public void setFocusedButton() {
         if (focusedButton != null) {
-            focusedButton.setBackground(Variables.nonFocus);
-            focusedButton.setBorder(BorderFactory.createMatteBorder(2, 0, -2, 5, Variables.white));
+            focusedButton.unfocus();
         }
         focusedButton = this;
-        focusedButton.setBackground(Variables.focus);
-        focusedButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 5, Variables.white));
+        focus();
     }
 
     @Override
@@ -89,5 +104,21 @@ public class TabButton extends JPanel implements MouseListener, Serializable {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == animationTimer) {
+            if (this == focusedButton) {
+                animationCount++;
+                setBorder(BorderFactory.createMatteBorder(animationCount, 0, animationCount, 5, Variables.white));
+                if (animationCount == 0) animationTimer.stop();
+            }
+            else {
+                animationCount--;
+                setBorder(BorderFactory.createMatteBorder(-animationCount, 0, animationCount, 5, Variables.white));
+                if (animationCount == -3) animationTimer.stop();
+            }
+        }
     }
 }
