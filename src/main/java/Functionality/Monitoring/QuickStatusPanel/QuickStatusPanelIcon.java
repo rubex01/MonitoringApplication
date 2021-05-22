@@ -29,7 +29,6 @@ public class QuickStatusPanelIcon extends JPanel {
         graphics2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-
         GradientPaint gradient = new GradientPaint(0, 0, typeColor.brighter(), 40, 40, typeColor.darker());
         RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(5, 5, 40, 40, 16, 16);
 

@@ -95,7 +95,8 @@ public class APIController extends TimerTask implements Serializable {
                                     (stringlist.get(24).equals("") ? 0 : Integer.valueOf(stringlist.get(24))),
                                     (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23))),
                                     (stringlist.get(8).equals("") ? 0 : Integer.valueOf(stringlist.get(8))),
-                                    (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9)))
+                                    (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9))),
+                                    (stringlist.get(18).equals("") ? 0 : Integer.valueOf(stringlist.get(18)))
                             );
                         }
                     }
@@ -119,7 +120,8 @@ public class APIController extends TimerTask implements Serializable {
                             Integer.valueOf(stringlist.get(28)),
                             (stringlist.get(23).equals("") ? 0 : Integer.valueOf(stringlist.get(23))),
                             (stringlist.get(8).equals("") ? 0 : Integer.valueOf(stringlist.get(8))),
-                            (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9)))
+                            (stringlist.get(9).equals("") ? 0 : Integer.valueOf(stringlist.get(9))),
+                            (stringlist.get(18).equals("") ? 0 : Integer.valueOf(stringlist.get(18)))
                     ));
                 }
                 else if (APIController.databaseServerPoolName.equals(stringlist.get(0)) || APIController.webServerPoolName.equals(stringlist.get(0)) && (stringlist.get(1).equals("BACKEND"))) {
