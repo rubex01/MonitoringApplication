@@ -61,7 +61,7 @@ public class StatusGraph extends JPanel {
         }
         if (highestValue == -1 && lowestValue == -1) return;
 
-        int verticalSteps = (getHeight()-12) / ((int) (highestValue*1.7));
+        double verticalSteps = (getHeight()-12) / (highestValue*1.7);
         int horizontalSteps = getWidth()/9;
 
         int[] horizontalCoordinates = new int[10];

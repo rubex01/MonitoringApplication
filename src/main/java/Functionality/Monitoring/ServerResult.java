@@ -225,7 +225,7 @@ public class ServerResult implements Serializable, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == panel) {
+        if (e.getSource() == panel && type != Server.FIREWALL) {
             linkedDialogs.add(new ExtraServerInfoDialog(this));
         }
     }
