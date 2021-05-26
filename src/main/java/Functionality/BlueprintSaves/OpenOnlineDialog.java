@@ -3,6 +3,7 @@ package Functionality.BlueprintSaves;
 import Assets.DefaultButton;
 import Assets.DefaultScrollPane;
 import Assets.Variables;
+import Assets.YesNoDialog;
 import Functionality.DatabaseConnection;
 import GUI.Frame;
 
@@ -15,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OpenOnlineDialog extends JDialog implements ActionListener, KeyListener {
@@ -22,6 +24,8 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
     private JTextField jtfSearch;
 
     private DefaultButton jbOpen;
+
+    private DefaultButton jbDel;
 
     private JList serversPanel;
 
@@ -71,10 +75,13 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
         jbOpen.addActionListener(this);
         DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
+        jbDel = new DefaultButton("Verwijderen");
+        jbDel.addActionListener(this);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(Variables.backgroundLighter);
+        buttonPanel.add(jbDel);
         buttonPanel.add(jbOpen);
         buttonPanel.add(jbCancel);
 
@@ -83,14 +90,22 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    public void redrawListModel() {
+        jtfSearch.setText("");
+        blueprints.removeAllElements();
+        for (String blueprint : allBlueprints) blueprints.addElement(blueprint);
+    }
+
     private void updateOnlineBlueprints() {
         try {
+            allBlueprints = null;
             PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("select Filename from blueprints");
             ResultSet result = statement.executeQuery();
             ArrayList<String> blueprints = new ArrayList<>();
             while(result.next()) blueprints.add(result.getString(1));
             DatabaseConnection.closeConnection();
             allBlueprints = blueprints;
+            redrawListModel();
         }
         catch (Exception exception) {
 //            TODO: give nice error
@@ -106,10 +121,33 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
         return openPressed;
     }
 
+    public void deleteSelectedFile() {
+        try {
+            String filename = serversPanel.getSelectedValue().toString();
+            PreparedStatement delStatement = DatabaseConnection.getConnection().prepareStatement("delete from blueprints where Filename = ?");
+            delStatement.setString(1, filename);
+            delStatement.execute();
+        }
+        catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == jbOpen) openPressed = true;
-        setVisible(false);
+        if(e.getSource() == jbOpen) {
+            openPressed = true;
+            setVisible(false);
+        }
+        else if (e.getSource() == jbDel) {
+            String filename = serversPanel.getSelectedValue().toString();
+            YesNoDialog deleteConfirmDialog = new YesNoDialog("Bestand verwijderen", "Weet je zeker dat je " + filename + " wil verwijderen?");
+            if (deleteConfirmDialog.getCloseMethod() == YesNoDialog.YES_OPTION) {
+                deleteSelectedFile();
+                updateOnlineBlueprints();
+            }
+        }
+        else setVisible(false);
     }
 
     @Override
