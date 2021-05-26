@@ -148,6 +148,7 @@ public class SaveController {
     public static boolean openBlueprintOnline(){
         try{
             OpenOnlineDialog dialog = new OpenOnlineDialog();
+            if (!dialog.getOpenPressed()) return false;
 
             PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("select Object from blueprints WHERE Filename = ?");
             statement.setString(1, dialog.getSelectedValue());
@@ -160,7 +161,6 @@ public class SaveController {
                 ObjectInputStream is = new ObjectInputStream(in);
                 Blueprint blueprint = (Blueprint) is.readObject();
 
-                if (!dialog.getOpenPressed()) return false;
                 Frame.defaultFrame.getTabsBar().addTab(blueprint);
                 Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
             }
