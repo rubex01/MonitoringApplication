@@ -10,7 +10,7 @@ import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class SaveController {
+public class SaveController extends DeleteController{
 
     public static boolean saveBlueprint(Blueprint blueprint) {
         try {
@@ -148,7 +148,6 @@ public class SaveController {
     public static boolean openBlueprintOnline(){
         try{
             OpenOnlineDialog dialog = new OpenOnlineDialog();
-            if (!dialog.getOpenPressed()) return false;
 
             PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement("select Object from blueprints WHERE Filename = ?");
             statement.setString(1, dialog.getSelectedValue());
@@ -161,8 +160,13 @@ public class SaveController {
                 ObjectInputStream is = new ObjectInputStream(in);
                 Blueprint blueprint = (Blueprint) is.readObject();
 
-                Frame.defaultFrame.getTabsBar().addTab(blueprint);
-                Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
+                if (dialog.getDelPressed()){
+                    delBlueprintOnline(blueprint);
+                } else {
+                    if (!dialog.getOpenPressed()) return false;
+                    Frame.defaultFrame.getTabsBar().addTab(blueprint);
+                    Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
+                }
             }
 
             DatabaseConnection.closeConnection();

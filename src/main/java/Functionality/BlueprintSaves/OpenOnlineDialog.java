@@ -23,11 +23,15 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
 
     private DefaultButton jbOpen;
 
+    private Button jbDel;
+
     private JList serversPanel;
 
     private DefaultListModel blueprints;
 
     private boolean openPressed;
+
+    private boolean delPress;
 
     private ArrayList<String> allBlueprints;
 
@@ -71,12 +75,16 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
         jbOpen.addActionListener(this);
         DefaultButton jbCancel = new DefaultButton("Annuleren");
         jbCancel.addActionListener(this);
+        jbDel = new Button("Verwijderen");
+        jbDel.addActionListener(this);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(Variables.backgroundLighter);
         buttonPanel.add(jbOpen);
         buttonPanel.add(jbCancel);
+        buttonPanel.add(jbDel);
+
 
         add(searchPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -105,10 +113,15 @@ public class OpenOnlineDialog extends JDialog implements ActionListener, KeyList
     public boolean getOpenPressed(){
         return openPressed;
     }
+    public boolean getDelPressed(){ return delPress; }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == jbOpen) openPressed = true;
+        setVisible(false);
+
+        if (e.getSource() == jbDel) delPress = true;
         setVisible(false);
     }
 
