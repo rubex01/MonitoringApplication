@@ -10,7 +10,7 @@ import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class SaveController extends DeleteController{
+public class SaveController {
 
     public static boolean saveBlueprint(Blueprint blueprint) {
         try {
@@ -160,13 +160,9 @@ public class SaveController extends DeleteController{
                 ObjectInputStream is = new ObjectInputStream(in);
                 Blueprint blueprint = (Blueprint) is.readObject();
 
-                if (dialog.getDelPressed()){
-                    delBlueprintOnline(blueprint);
-                } else {
-                    if (!dialog.getOpenPressed()) return false;
-                    Frame.defaultFrame.getTabsBar().addTab(blueprint);
-                    Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
-                }
+                if (!dialog.getOpenPressed()) return false;
+                Frame.defaultFrame.getTabsBar().addTab(blueprint);
+                Frame.defaultFrame.getTabsBar().changeFocus(blueprint);
             }
 
             DatabaseConnection.closeConnection();
