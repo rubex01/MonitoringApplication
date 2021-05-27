@@ -108,8 +108,8 @@ public class Algorithm {
 
         if (
                 (currentBestSolution != null && configInfo[0] > currentBestSolution.getPrice()) ||
-                        (oldConfig != null && configInfo[1]/configInfo[0] > oldConfig[1]/oldConfig[0]) ||
-                        (oldConfig != null && (configInfo[1] - oldConfig[1]) < doubleThreshold)
+                (oldConfig != null && configInfo[1]/configInfo[0] > oldConfig[1]/oldConfig[0]) ||
+                (oldConfig != null && (configInfo[1] - oldConfig[1]) < doubleThreshold)
         ) return;
 
         if (configInfo[1] >= wantedUptime) {

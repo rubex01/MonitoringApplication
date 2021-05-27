@@ -48,7 +48,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
         settingItems.add(new SettingItem("ssh_host", "Host", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("ssh_user", "Gebruikersnaam", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("ssh_password", "Wachtwoord", SettingItem.PASSWORD, true));
-        settingItems.add(new SettingItem("check_interval", "Checking interval", SettingItem.TEXT, true));
+        settingItems.add(new SettingItem("check_interval", "Checking interval (Sec)", SettingItem.TEXT, true));
         settingItems.add(new SettingItem("", "Optimalisatie", SettingItem.SPACE));
         settingItems.add(new SettingItem("algorithm_allowlong", "Lange invoer toestaan", SettingItem.BOOLEAN, false));
         // Add setting items here

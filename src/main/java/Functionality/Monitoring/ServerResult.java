@@ -103,10 +103,10 @@ public class ServerResult implements Serializable, MouseListener {
             return time + " seconden";
         }
         else if ((time/60) < 59) {
-            return (time/60) + " minuten";
+            return (time/60) + (((time/60) == 1) ? " minuut" : " minuten");
         }
         else {
-            return (time/60/60) + " uren";
+            return (time/60/60) + (((time/60/60) == 1) ? " uur" : " uren");
         }
     }
 
@@ -124,7 +124,8 @@ public class ServerResult implements Serializable, MouseListener {
     public JPanel paintSelf() {
         for (ExtraServerInfoDialog dialog : linkedDialogs) dialog.updateCycle();
         if (panel != null) {
-            statusInfo.setText(decideTextBasedOnTime(uptime) + " online | " + decideTextBasedOnTime(downtime) + " offline");
+            String onlineText = (online) ? decideTextBasedOnTime(uptime) : "niet";
+            statusInfo.setText(onlineText + " online | " + decideTextBasedOnTime(downtime) + " offline");
             statusPanel.repaint();
             checkDescLabel.setText(getcheckDescForDisplay());
             return panel;
